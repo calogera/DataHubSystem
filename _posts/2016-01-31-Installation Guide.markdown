@@ -593,6 +593,86 @@ Once the DHuS files are configured as shown in Software Configuration section, e
 To stop DHuS, execute, as dhus user, the following command in the folder where the DHuS is installed:     
 `/bin/bash stop.sh` 
 
+#  Scalability Mode Configuration
+The objective of the configuration in scalability mode is to have several DHuS instances acting as one to share the user load and the products information: the deployment in scalable mode is completely transparent to the user.   
+## 1. Architecture and Deploy
+The deployment of DHuS in scalable mode suitable for the operational scenario foresees three main actors:   
+- one DHuS acting as master   
+- one or more DHuS acting as replicas   
+- one proxy   
+ 
+**Master**  
+The DHuS master is the one and only product data source, meaning, it is in charge of the ingestion/synchronization of products. 
+   
+**Replicas**   
+The DHuS replicas are master’s doppelgangers. The product and user information stored in the DHuS master are broadcasted to all the replicas so that users can access product metadata. Replicas are accessed by the users (through the proxy). Consequently, the user information (e.g. profile changes) is spread from the replicas to the master.    
+**It is mandatory that master and replicas share the data store to allow access to ingested products.**   
+The product deletion and eviction shall be executed on the replicas.
+User registration shall be executed only on one of the replicas (to avoid database conflicts).   
+
+**Proxy**   
+A proxy is needed for load balancing among the replicas. It must be configured to redirect incoming traffic to the DHuS replicas based on a load balancing algorithm with sticky sessions. Please refer to the proxy documentation for instructions on how to implement this.
+##2. Installation and configuration procedure with an empty database.      
+**Step 1**: **Download** the [installation package](https://github.com/SentinelDataHub/DataHubSystem/releases/tag/0.12.5-6-osf) and install on all machines following       
+
+**Step 2**: **Master Configuration** 
+    
+- In start.sh of the master add the following parameters (some may already be present) to the java executable command line:
+    
+    -Dhttp.proxyHost=[proxy external IP] \
+    -Dhttp.proxyPort=[proxy port] \
+    -Dhttp.nonProxyHosts="[proxy internal IP without last block].*"\  (e.g., 192.168.1.*)
+    -Ddhus.scalability.active=true  \
+    -Ddhus.scalability.local.protocol=http  \
+    -Ddhus.scalability.local.ip=[DHuS master internal IP]   
+    -Ddhus.scalability.local.port=[DHuS master port, as in server.xml] \
+    -Ddhus.scalability.local.path=/  \
+- In the dhus.xml set the “external” parameter with the proxy hostname (or IP) its port and the master’s dhus path:       
+
+    <external protocol="http" host="proxy hostname" port="proxy port" path="/master" /> 
+
+**Step 3**: **Replica Configuration**   
+Configure the start.sh of the replicas as follows:
+
+    -Dhttp.proxyHost=[external proxy IP] \
+    -Dhttp.proxyPort=[proxy port] \
+    -Dhttp.nonProxyHosts="[proxy internal IP without last block].*"\  (e.g., 192.168.1.*)
+    -Ddhus.scalability.active=true\
+    -Ddhus.scalability.local.protocol=http \
+    -Ddhus.scalability.local.ip=[DHuS replica internal IP] \
+    -Ddhus.scalability.local.port=[DHuS replica port] \
+    -Ddhus.scalability.local.path=/\
+    -Ddhus.scalability.replicaId=[id of the replica, integer] \
+    -Ddhus.scalability.dbsync.master=http://[DHuS master internal IP ]:[DHuS port]/ \
+
+- In the dhus.xml set the “external” parameter with the proxy hostname (or IP) its port and the replica’s dhus path:
+
+
+    <external protocol="http" host="proxy hostname" port="proxy port" path="/dhus" /> 
+**Step 4**: Start DHuS master and wait until the startup process is complete.  
+**Step 5**: Start DHuS replicas. 
+##3. Installation and configuration procedure with an already existing database.   
+**Step 1**: follow Step 1 in previous procedure (LINK)   
+**Step 2**: follow Step 2 in previous procedure (LINK), configuring the scalability option as follows.
+
+    -Ddhus.scalability.active=false  \
+**Step 3**: On the master, copy the database and Solr index (in {varfolder}/database and {varfolder}/solr, respectively), overriding the existing directories  
+**Step 4** : Remove this file : {varfolder}/solr/dhus/conf/managed-schema, if present.     
+**Step 5**: Start the DHuS Master to perform a **database migration**.   
+**Step 6**: At the end of the migration process (which can take a while, depending on the number of products and users in the database), stop the DHuS Master.   
+**Step 7**: Backup the database and Solr index and copy them on each replica overriding the existing directories in {varfolder}.   
+**Step 8**: Add the option to the start.sh of the master: `-Dauto.reload=false` to prevent the master from sending its database to the replicas.   
+**Step 9**: Start DHuS master and wait until the startup process is complete.    
+Follow Steps 3, 4 and 5 of previous procedure (LINK) taking care of starting replicas one at a time.  
+
+
+
+
+
+
+
+
+
 
 
 
