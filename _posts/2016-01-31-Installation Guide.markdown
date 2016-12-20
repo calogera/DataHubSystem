@@ -655,7 +655,7 @@ Configure the start.sh of the replicas as follows:
 **Step 1**: follow Step 1 in previous procedure (LINK)   
 **Step 2**: follow Step 2 in previous procedure (LINK), configuring the scalability option as follows.
 
-    -Ddhus.scalability.active=false  \
+   ` -Ddhus.scalability.active=false  \`    
 **Step 3**: On the master, copy the database and Solr index (in {varfolder}/database and {varfolder}/solr, respectively), overriding the existing directories  
 **Step 4** : Remove this file : {varfolder}/solr/dhus/conf/managed-schema, if present.     
 **Step 5**: Start the DHuS Master to perform a **database migration**.   
