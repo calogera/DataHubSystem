@@ -359,6 +359,222 @@ The Statistic panel provided by DHuS allows monitoring the activities and connec
 
 The Statistics functionality  is dedicated to the monitoring of the service activity through operation statuses and statistics. Most of these values are extracted from the DHuS Database that is fed regularly by any interested service but in particular by the dedicated DHuS Monitoring Service.
 
+**SCALABILITY MODE CONFIGURATION**  
+The objective of the configuration in scalability mode is to have several DHuS instances acting as one to share the user load and the products information: the deployment in scalable mode is completely transparent to the user.   
+**1. Architecture and Deploy**   
+The deployment of DHuS in scalable mode suitable for the operational scenario foresees three main actors:    
+•	one DHuS acting as master   
+•	one or more DHuS acting as replicas   
+•	one proxy   
+**Master**  
+The DHuS master is accessible to users only during the account registration process. It is the one and only product data source, meaning, it is in charge of the ingestion/synchronization of products.  
+**Replicas**    
+The DHuS replicas are master’s doppelgangers. The product and user information stored in the DHuS master are broadcasted to all the replicas so that users can access product metadata. Replicas are accessed by the users (through the proxy) in fact they have access to internet. Consequently, the user information (e.g. profile changes) is spread from the replicas to the master.
+It is mandatory that master and replicas share the data store to allow access to ingested products.    
+**Proxy**    
+ HAproxy is responsible of load balancing among the replicas. The implemented configuration and algorithm used during the validation phase is the following: 
+
+
+    backend replicas  
+    balance leastconn 
+    stick-table type ip size 200k expire 30m
+    stick on src   
+    option httpchk
+    server dhus1 172.30.246.25:80 check 
+    server dhus2 172.30.246.21:80 check
+
+
+1.	The balance algorithm is  leastconn ([https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4.2-balance](https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4.2-balance "https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4.2-balance"))
+2.	The option httpchk has been added ([https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#option%20httpchk](https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#option%20httpchk "https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#option%20httpchk"))
+
+
+**2. Installation and configuration procedure** 
+
+Download the installation package and install it under `/data/dhus-[release number]`	     
+**Master configuration**  
+Configure the start.sh of the master as follows:
+
+    java -Dhttp.proxyHost=[external proxy IP] -Dhttp.proxyPort=[proxy port] -Dhttp.nonProxyHosts="[machine internal IP without last block].*"\
+     -server -XX:MaxPermSize=256m -Xms24g -Xmx24g  \
+     -Djava.rmi.server.hostname=127.0.0.1\
+     -Djava.library.path=${NATIVE_LIBRARIES} \
+     -Duser.timezone=UTC \
+     -Dcom.sun.media.jai.disableMediaLib=true\
+     -Dsun.zip.disableMemoryMapping=true \
+     -Ddhus.scalability.active=true  \
+     -Ddhus.scalability.local.protocol=http  \
+     -Ddhus.scalability.local.ip=[internal IP of the DHuS master]   \
+     -Ddhus.scalability.local.port=[DHuS port] \
+     -Ddhus.scalability.local.path=/  \
+     -cp "etc:lib/*" fr.gael.dhus.DHuS &
+
+Note: if it is necessary to monitor DHuS via jmx, the necessary parameters shall be configured here	
+In the dhus.xml  the external path parameter which shall be the following:
+
+
+    <external protocol="http" host="URL for user access(e.g.scihub-test.esa.int)" port="80" path="/dhus" />	
+The Server.xml shall be configured:  
+
+**Server.xml**
+
+    <?xml version='1.0' encoding='utfI8'?>
+    <Server port="8005" shutdown="SHUTDOWN">
+    <Service name="DHuSIService">
+    <Connector port="8080"
+    protocol="org.apache.coyote.http11.Http11NioProtocol"
+    maxConnections="1000"
+    maxThreads="400"
+    keepAliveTimeout="2000"
+    URIEncoding="ISOI8859I1"
+    compression="on"
+    compressionMinSize="1024"
+    
+    compressableMimeType="application/json,application/javascript,application/xhtml+xml,applica
+    tion/xml,text/html,text/xml,text/plain,text/javascript,text/css"/>
+    <Engine name="DHuSIEngine" defaultHost="localhost">
+    <Host name="localhost" appBase="webapps" deployOnStartup="true">
+    <Valve className="org.apache.catalina.valves.AccessLogValve"
+    prefix="access_logI"
+    suffix=".txt"
+    directory="logs"
+    pattern="%h %l %u %t %r %s %b %I %D"/>
+    <!--Access Filter Settings are
+    pattern: the regular expression to filter user request.
+    i.e."^.*(/odata/v1/).*$" only manages odata request.
+    or "^((? /(home|new)/).)*$" consider all request but the UI.
+    useLogger="true|false" show or hide the user access in logger output.
+    This setting does impact keeping internal track of therequest.
+     enable="true|false"activate/deactivate the valve.-->
+    <Valve className="fr.gael.dhus.server.http.valve.AccessValve"
+    pattern=".*"
+    useLogger="true"
+    enable="true"/>
+    </Host>
+    </Engine>
+    </Service>
+    </Server>
+
+
+
+and log4j.xml shall be configured:
+
+**log4j.xml**
+
+    <?xml version="1.0" encoding="UTFI8"?>
+    <Configuration>
+    <Properties>
+    <Property name="pattern"
+    >[$${sys:fr.gael.dhus.version}][%d{DEFAULT}{UTC}][%I5p] %m (%file:%line I %t)%n%throwable
+    </Property>
+    </Properties>
+    <Appenders>
+    <Console name="stdout" target="SYSTEM_OUT">
+    <PatternLayoutpattern="${pattern}"/>
+    <Filters>
+    <ThresholdFilterlevel="DEBUG"/>
+    <ThresholdFilter level="WARN" onMatch="DENY"
+    onMismatch="NEUTRAL"/>
+    </Filters>
+    </Console>
+    <Console name="stderr" target="SYSTEM_ERR">
+    <PatternLayout pattern="${pattern}"/>
+    <Filters>
+    <ThresholdFilter level="WARN"/>
+    </Filters>
+    </Console>
+    <RollingFilename="RollingFile"fileName="dhus.log"
+    filePattern="dhusI%d{yyyyIMMIdd}.log">
+    <PatternLayout>
+    <Pattern>${pattern}</Pattern>
+    </PatternLayout>
+    <Policies>
+    <TimeBasedTriggeringPolicy interval="1"modulate="true"/>
+    </Policies>
+    <Filters>
+    <ThresholdFilter level="DEBUG"/>
+    </Filters>
+    </RollingFile>
+    </Appenders>
+    <Loggers>
+    <logger name="fr.gael.dhus"level="info"/>
+    <loggername="fr.gael.drb.query.FunctionCallExpression"level="debug"/>
+    <logger name="org.apache.cxf.jaxrs.utils.JAXRSUtils" level="error"/>
+    <logger name="org.apache.solr"level="error"/>
+    <Root level="info">
+    <AppenderRef ref="stderr"/>
+    <AppenderRef ref="stdout"/>
+    <AppenderRef ref="RollingFile"/>
+    </Root>
+    </Loggers>
+    </Configuration>
+
+**Replica configuration**  
+Configure the start.sh of the replicas as follows:
+
+    java -Dhttp.proxyHost=[external proxy IP] -Dhttp.proxyPort=[proxy port] -Dhttp.nonProxyHosts="[machine internal IP without last block].*| [URL for user access]"\
+     -server -XX:MaxPermSize=256m -Xms24g -Xmx24g          \
+     -Djava.rmi.server.hostname=127.0.0.1          \
+     -Djava.library.path=${NATIVE_LIBRARIES}       \
+     -Duser.timezone=UTC                           \
+     -Dcom.sun.media.jai.disableMediaLib=true      \
+     -Dsun.zip.disableMemoryMapping=true           \
+     -Ddhus.scalability.active=true                \
+     -Ddhus.scalability.replicaId=[id of the replica as set in the proxy e.g. 1]                \
+     -Ddhus.scalability.dbsync.master=http://[internal IP of the DHuS master]:[DHuS port]/ \
+     -Ddhus.scalability.local.protocol=http         \
+     -Ddhus.scalability.local.ip=[internal IP of the DHuS replica] \
+     -Ddhus.scalability.local.port=[DHuS replica port] \
+     -Ddhus.scalability.local.path=/                \
+     -cp "etc:lib/*" fr.gael.dhus.DHuS &
+
+Note: if it is necessary to monitor DHuS via jmx, the necessary parameters shall be configured here	
+The dhus.xml shall be configured as above, but the external path parameter which shall be as follows:
+
+
+    <external protocol="http" host="URL for user access(e.g.scihub-test.esa.int)" port="80" path="/dhus" />   	
+Server.xml and log4j.xml shall be configured as above
+
+Start DHuS master and replicas.	
+
+In the *replicas log* the following kind of message is displayed:
+
+    [0.12.1][2016-10-05 09:36:48,762][INFO ] 21 data and 3 batches loaded during push request from dhus-master-group:000:000.  There were 0 batches in error (DataLoaderService.java:385 - http-nio-8081-exec-2)
+
+In the *master log* the following kind of message is displayed: 
+
+    [0.12.1][2016-10-05 11:19:25,360][INFO ] 1 data and 1 batches loaded during push request from dhus-replica-group:002:002.  There were 0 batches in error (DataLoaderService.java:385 - http-nio-8081-exec-3)
+    
+**3.How to use a scalable DHuS**   
+Here follows a list of usage hints to operate a DHuS deployed in scalable mode.   
+1.The master DHuS is the only product source, so it shall act as:   
+   a.FE instance (via OData synchronizers)  
+   b.ingesting instance      
+2.The product deletion and eviction shall be executed on the replicas. If such kind of operations is executed on the master, the replicas will take the deleted/evicted products back on the master via the replication mechanism.   
+3.User registration shall be executed on a single instance (master is preferable)   
+4.Start new replicas always after master   
+5.Parameters for load   
+6.Dauto.reload=false  
+
+
+•	Not all the DB tables are replicated among master and replicas (e.g. the configuration of a single instance is not shared with the others). Please find below the list of tables which are involved in the replication process:   
+-USERS      
+-USER_ROLES   
+-ACCESS_RESTRICTION   
+-USER_RESTRICTIONS   
+-PREFERENCES   
+-SEARCH_PREFERENCES   
+-SEARCHES   
+-PRODUCTCARTS   
+-CART_PRODUCTS   
+-COLLECTIONS   
+-COLLECTION_PRODUCT   
+-COLLECTION_USER_AUTH   
+-PRODUCTS   
+-PRODUCT_USER_AUTH   
+-CHECKSUMS   
+-METADATA_INDEXES   
+
+
 
 
 
