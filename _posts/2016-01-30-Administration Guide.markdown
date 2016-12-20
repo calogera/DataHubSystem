@@ -359,7 +359,7 @@ The Statistic panel provided by DHuS allows monitoring the activities and connec
 
 The Statistics functionality  is dedicated to the monitoring of the service activity through operation statuses and statistics. Most of these values are extracted from the DHuS Database that is fed regularly by any interested service but in particular by the dedicated DHuS Monitoring Service.
 
-**SCALABILITY MODE CONFIGURATION**  
+**Scalability Mode Configuration**  
 The objective of the configuration in scalability mode is to have several DHuS instances acting as one to share the user load and the products information: the deployment in scalable mode is completely transparent to the user.   
 **1. Architecture and Deploy**   
 The deployment of DHuS in scalable mode suitable for the operational scenario foresees three main actors:    
@@ -372,16 +372,16 @@ The DHuS master is accessible to users only during the account registration proc
 The DHuS replicas are master’s doppelgangers. The product and user information stored in the DHuS master are broadcasted to all the replicas so that users can access product metadata. Replicas are accessed by the users (through the proxy) in fact they have access to internet. Consequently, the user information (e.g. profile changes) is spread from the replicas to the master.
 It is mandatory that master and replicas share the data store to allow access to ingested products.    
 **Proxy**    
- HAproxy is responsible of load balancing among the replicas. The implemented configuration and algorithm used during the validation phase is the following: 
-
+ HAproxy is responsible of load balancing among the replicas. The implemented configuration and algorithms used are the following: 
+Note: This configuration has been tested successfully with HAproxy, other proxies are not yet tested.
 
     backend replicas  
     balance leastconn 
     stick-table type ip size 200k expire 30m
     stick on src   
     option httpchk
-    server dhus1 172.30.246.25:80 check 
-    server dhus2 172.30.246.21:80 check
+    server dhus1 replica1_ip:80 check 
+    server dhus2 replica2_ip:80 check
 
 
 1.	The balance algorithm is  leastconn ([https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4.2-balance](https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4.2-balance "https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4.2-balance"))
@@ -390,7 +390,7 @@ It is mandatory that master and replicas share the data store to allow access to
 
 **2. Installation and configuration procedure** 
 
-Download the installation package and install it under `/data/dhus-[release number]`	     
+Download the [installation package](https://github.com/SentinelDataHub/DataHubSystem/releases/tag/0.12.5-6-osf) and install it under `/data/dhus-[release number]`	     
 **Master configuration**  
 Configure the start.sh of the master as follows:
 
@@ -549,12 +549,9 @@ Here follows a list of usage hints to operate a DHuS deployed in scalable mode.
 1.The master DHuS is the only product source, so it shall act as:   
    a.FE instance (via OData synchronizers)  
    b.ingesting instance      
-2.The product deletion and eviction shall be executed on the replicas. If such kind of operations is executed on the master, the replicas will take the deleted/evicted products back on the master via the replication mechanism.   
-3.User registration shall be executed on a single instance (master is preferable)   
+2.The product deletion and eviction shall be executed on the replicas.    
+3.User registration shall be executed on a single instance    
 4.Start new replicas always after master   
-5.Parameters for load   
-6.Dauto.reload=false  
-
 
 •	Not all the DB tables are replicated among master and replicas (e.g. the configuration of a single instance is not shared with the others). Please find below the list of tables which are involved in the replication process:   
 -USERS      
@@ -572,10 +569,42 @@ Here follows a list of usage hints to operate a DHuS deployed in scalable mode.
 -PRODUCTS   
 -PRODUCT_USER_AUTH   
 -CHECKSUMS   
--METADATA_INDEXES   
+-METADATA_INDEXES  
+ 
+**4. Migration Scenario from previous version to 0.12.5-6-osf**   
+The migration scenario is close to the usual procedure:
 
+1. To create another node from an existing one, copy the database and Solr index. This step can be skipped in order to simply migrate an existing node.
+2.	Add this option to the start.sh: `-Ddhus.scalability.active=false` to ensure the scalability is disabled.
+3.	Remove this file : `{varfolder}/solr/dhus/conf/managed-schema`
+4.	Start the DHuS in v.0.12.5-6-osf to perform database migration.
 
+At this point, the environment is upgraded to the 0.12.5-6-osf version. The node is also ready to be restarted with scalability active `(-Ddhus.scalability.active=true)`. It is required to configure the scalability options in start.sh before restarting it as the scalability group master.
 
+**5 Creating a new Replica in scalability group**
 
+To create a new replica, use this procedure: 
 
+1.	Stop all synchronizers.
+2.	Shutdown all nodes in the scalability group (replicas and master).
+3.	Copy database and Solr index of the master in the new node.
+4.	Add the option to the start.sh of the master:  `-Dauto.reload=false` to prevent the master from sending all its database to the new replica.
+5.	Configure the replica in its start.sh, according to the described scalability options.
+6.	Add the option to the start.sh of the replica:` -Ddhus.scalability.dbsync.clear=true` to clear the SymmetricDS entries from the dump.
+7.	Restart the master of this scalability group.
+8.	Start the new replica, and restart the other replicas.
+9.	Remove the `-Ddhus.scalability.dbsync.clear=true` option from the start.sh so it is not used for subsequent restarts.
+10.	Product synchronizers, and user requests can now be activated.
+
+The migration scenario should only be done once inside a future scalability group to produce the reference node, also known as the master of this group.
+Two upgraded nodes in v. 0.12.5-6-osf will generate different UUIDs for the same user, putting them inside the same scalability group must be avoided as it can potentially introduce constraint violations when replicating the databases.
+
+The best approach is to choose one instance that will become the master of the new scalability group. Then delete the database/solr index of every other instance of the DHuS, which will become the replicas. Finally, follow the “Creating a new Replica in scalability group” procedure.
+
+***Warnings***
+
+Several separately upgraded instances of the DHuS in v. 0.12.-osf must not be added to the same scalability group as UUID of users will be different across those instances. An instance must be designated as the master and the others must overwrite their database and Solr index with the data from the master, see dedicated procedures.
+
+OData synchronization must be avoided in 0.12.5-6-osf version inside the same scalability group in order to not duplicate Users, which would induce a constraint violation.
+In addition, a User synchronizer between two masters of different scalability group could be done to synchronize the User data.
 
