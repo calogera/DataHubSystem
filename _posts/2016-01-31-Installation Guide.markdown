@@ -11,11 +11,11 @@ categories: page
 [InstallationSetup](#InstallationSetup)    
 [Software Configuration Manual](#SoftConManual)    
 [User Interface Configuration Manual](#UserInterfaceConfigurationManual)     
-[Advanced Configuration](#AdvancedConfiguration)  
-[Scalability Mode Configuration](#Scalability)
-[Architecture and Deploy](#ArchitectureDeploy)  
-[Installation and Configuration procedure with an empty database](#InstallationConfigurationEmptyDB)   
-[Installation and Configuration procedure with an already existing empty database ](#InstallationConfigurationDB)  
+[Advanced Configuration](#AdvancedConfiguration)      
+[Scalability Mode Configuration](#Scalability)             
+[Architecture and Deploy](#ArchitectureDeploy)          
+[Installation and Configuration procedure with an empty database](#InstallationConfigurationEmptyDB)     
+[Installation and Configuration procedure with an already existing empty database ](#InstallationConfigurationDB)    
 
 ##Introduction <a name="Introduction"></a> 
 The DHuS is a web application, running within a Java Virtual Machine. All its middleware components, such as database and application servers, run inside the JVM container.     
@@ -611,7 +611,7 @@ To stop DHuS, execute, as dhus user, the following command in the folder where t
 `/bin/bash stop.sh` 
 
 
-#  Scalability Mode Configuration
+#  Scalability Mode Configuration <a name="Scalability"> </a>
 The objective of the configuration in scalability mode is to have several DHuS instances acting as one to share the user load and the products information: the deployment in scalable mode is completely transparent to the user.
 
    
