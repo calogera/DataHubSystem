@@ -424,11 +424,213 @@ Here below an example of filters configuration specific for S1 and S2 missions.
 Once you have changed a value in the file, you only need to refresh your browser to see the change immediately applied. **No need to restart the DHuS**.
 
 <hr></hr>
-**Version Upgrade** 
+**Version Upgrade from 0.9.1-osf to 0.12.5-6-osf
+**Version Upgrade from 0.9.1-osf to 0.12.5-6-osf**   
+Here below the list of configuration changes present from 0.9.1-osf to 0.12.5-6-osf.
+
+
+In **`dhus.xml`** file add:    
+1. `errorPath=""` in `<incoming>` tag. The error path includes the products that are not ingested correctly.    
+`<incoming path="" maxFileNo="" errorPath="path/to /folder"/>`   
+2. `cryptType=""` and `cryptKey=""`  in `<database /> `tag. Specify tour encryption key, or leave empty if your database has not been encrypted.   
+3. `trashPath=""` in `<eviction /> tag`. The trash path includes the products that are deleted.  
+ 
+     <eviction maxDiskUsage="80" maxEvictedProducts="100" keepPeriod="10" trashPath="/path/to/folder" />
+
+In **`appconfig.json`**(path=dhus_dist>/var/tomcat/webapps/new/config).   
+The following properties added in bold (after uploadRoles property) are the new ones:  
+  
+      "managementRoles": ["USER_MANAGER","DATA_MANAGER", "SYSTEM_MANAGER"],
+      "synchronizerRoles": ["UPLOAD"],   
+      "uploadRoles": ["UPLOAD"],   
+   **"sortOptions":[{"name":"Ingestion Date","value":"ingestiondate"},{"name":"Sensing Date","value":"beginposition"},
+{"name":"Cloud Coverage","value":"cloudcoverpercentage"}],
+"orderOptions" : [{"name":"Descending","value":"desc"},{"name":"Ascending","value":"asc"}],**
+  
+A configuration parameter has been added in file **`"appconfig.json"`** to enable/disable shapefile usage for area selection:
+
+    {
+    "debugMode": false,
+    "webAppRoot": "/",
+    "logged": false,
+    "version": "Data Hub System #version developed by a Serco and GAEL Systems consortium under a contract with the European Space Agency - Funded by the EU and ESA",
+    "settings": {
+    "title": "Copernicus Scientific Data Hub",
+    "logo": "images/datahub.png",
+    "signup": true,
+    "editprofile": true,
+    "showcart": true,
+    "showmap": true,
+    "bgimage": "images/bg_s3.jpg",
+    "showquicklook": true, 
+    "show_oldgui_link": true,
+    "show_userguide": true,
+    "show_home": true,
+    "show_extended_list": false,
+    "showsensingfilter": true,
+    "showingestionfilter": true,
+    "oldgui_link": "../",
+    "querytitle": "Request Done: ",
+    "enable_shapefile": true,
+    "toolbar" : {
+    "title": "Copernicus Scientific Data Hub", 
+    "userguide_link": "https://scihub.copernicus.eu/userguide",
+    "userguide_title": "User Guide",
+    "home_link": "https://scihub.copernicus.eu",
+    "home_title": "Scientific Data Hub Portal", 
+    "logos": [
+    {"link":"http://www.copernicus.eu", "image":"images/EC_standard_logo.png"}
+    ,
+    {"link":"https://sentinel.esa.int", "image":"images/logo_esa.png"}
+    ,
+    {"link":"http://www.copernicus.eu", "image":"images/copernicus.png"}
+    ],
+    "rightlogos": []
+    },
+    "availableRoles": [
+    {"id":"SEARCH", "title":"Search"}
+    ,
+    {"id":"DOWNLOAD", "title":"Download"}
+    ,
+    {"id":"UPLOAD", "title":"Upload"}
+    ,
+    {"id":"USER_MANAGER", "title":"User Manager"}
+    ,
+    {"id":"ARCHIVE_MANAGER", "title":"Archive Manager"}
+    ,
+    {"id":"DATA_MANAGER", "title":"Data Manager"}
+    ,
+    {"id":"SYSTEM_MANAGER", "title":"System Manager"}
+    ,
+    {"id":"STATISTICS", "title":"Statistics"}
+    ],
+    "managementRoles": ["USER_MANAGER","DATA_MANAGER", "SYSTEM_MANAGER"],
+    "synchronizerRoles": ["UPLOAD"],
+    "uploadRoles": ["UPLOAD"],
+    "sortOptions":[
+    {"name":"Ingestion Date","value":"ingestiondate"}
+    ,
+    {"name":"Sensing Date","value":"beginposition"}
+    ,
+    {"name":"Cloud Coverage","value":"cloudcoverpercentage"}
+    ],
+    "orderOptions" : [
+    {"name":"Descending","value":"desc"}
+    ,
+    {"name":"Ascending","value":"asc"}
+    ],
+    "isMapLayerSwitcherVisible":true,
+    "map":{
+    "Satellite":{
+    "sources":[{
+    "class":"MapQuest",
+    "params":
+    { "layer":"sat", "wrapX": false }
+    }],
+    "title": "Satellite",
+    "type":"base",
+    "visible":false
+    },
+    "Road":{
+    "sources":[{
+    "class":"OSM",
+    "params":
+    { "wrapX": false }
+    }],
+    "title": "Road",
+    "type":"base",
+    "visible":true
+    },
+    "Hybrid":{
+    "sources":[ {
+    "class": "MapQuest",
+    "params":
+    { "layer":"sat", "wrapX": false }
+    },
+    {
+    "class": "MapQuest",
+    "params":
+    { "layer":"hyb", "wrapX": false }
+    }],
+    "title": "Hybrid",
+    "type":"base",
+    "visible":false
+    }
+    },
+    "miniMap":{ 
+    "sources":[{
+    "class":"OSM",
+    "params":
+    { "wrapX": false }
+    }],
+    "title": "Road",
+    "type":"base",
+    "visible":true 
+    } 
+    },
+    "missions": [
+    {
+    "name": "Mission: Sentinel-1",
+    "indexname": "platformname",
+    "indexvalue": "Sentinel-1", 
+    "filters": [
+    { "indexname": "producttype", "indexlabel": "Product Type", "indexvalues": "", "regex": ".*" }
+    ,
+    { "indexname": "polarisationmode", "indexlabel": "Polarisation", "regex": ".*" }
+    ,
+    { "indexname": "sensoroperationalmode", "indexlabel": "Sensor Mode", "indexvalues": "", "regex": ".*" }
+    ,
+    { "indexname": "swathidentifier", "indexlabel": "Swath", "regex": ".*" }
+    ]
+    },
+    {
+    "name": "Mission: Sentinel-2",
+    "indexname": "platformname",
+    "indexvalue": "Sentinel-2",
+    "filters": [
+    { "indexname": "producttype", "indexlabel": "Product Type", "regex": ".*" }
+    ,
+    { "indexname": "cloudcoverpercentage", "indexlabel": "Cloud Coverage (%)", "regex": ".*" }
+    ,
+    { "indexname": "processingbaseline", "indexlabel": "Processing Baseline", "regex": ".*" }
+    ]
+    }
+    ]
+    }
+ 
+
+
+In **`start. sh`** file add:  
+ 
+1. http.timeout.socket: Timeout in milliseconds for waiting for data.   
+2. http.timeout.connection: Timeout in milliseconds until a connection is established.   
+3. http.timeout.connection_request: Timeout in milliseconds used when requesting a connection from the connection manager.   
+
+Such parameters are java system properties which can set by adding    
+`-D<key>=<value> [ms]`
+
+4. NATIVE_LIBRARIES=${DHUS_HOME}/lib/native/`uname -s`-`uname -p`
+
+-Djava.library.path=${NATIVE_LIBRARIES}   
+
+5. ` - dhus.search.innerTimeout`  (value is expected in milliseconds)Default timeout is set to 5000ms. It could be possible to modify this value at system startup
+6. `- max.rows.search.value`.  The parameter to configure the amount of products per page The default value is set to 100. 
+              
+7. Considering that v.0.12.5-6 introduces Scalability feature we suggest to see the [Scalability Configuration](http://calogera.github.io/DataHubSystem/page/2016/01/31/Installation-Guide.html#Scalability) session.
+
+
+
+
+
+
+
+
+
+**Version Upgrade from 0.4.-1- to 0.9.1-osf** 
 
 Dependencies
-This installation manual provides the upgrading DHuS version manual which means the installation of the reference version using a DB created during an installation of an older version of DHuS. The following instructions are ensured for all versions after the 0.4.3-1. (to be confirmed by AIV).
-Here below the list of configuration changes present from 0.4.3-1 to 0.9.0-2 Unless explicitly mentioned, the version which includes the change in configuration parameter is reported in the including version column.    
+This installation manual provides the upgrading DHuS version manual which means the installation of the reference version using a DB created during an installation of an older version of DHuS. The following instructions are ensured for all versions after the 0.4.3-1. 
+Here below the list of configuration changes present from 0.4.3-1 to 0.9.1-osf Unless explicitly mentioned, the version which includes the change in configuration parameter is reported in the including version column.    
 
 
 <table border="2">
