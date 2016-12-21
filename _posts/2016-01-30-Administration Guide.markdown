@@ -4,8 +4,20 @@ title:  "Administration Guide"
 date:   2016-01-30 15:40:56
 categories: page
 ---
+  
+[Login](#Login)   
+[Panels Description](#PanelsDescription)  
+[Products Upload](#ProductsUpload)   
+[DHuS Administration](#DHuSAdministration)  
+[User Management Panel](#UserManagementPanel)  
+[Collection Management Panel](#CollectionManagementPanel)   
+[System Management Panel](#SystemManagementPanel)    
+[Eviction Management Panel](#EvictionManagementPanel)    
+[Odata Synchronizer Panel](#OdataSynchronizerPanel) 
 
-**Login**    
+<a name="Login"></a> 
+
+##Login  
 
 Once the installation package (see [Installation Guide section](http://calogera.github.io/DataHubSystem/page/2016/01/31/Installation-Guide.html)) has been successfully installed, the DHuS server can be accessed online (https://dhus.xxx.zz) or on local URL (https://localhost/).
     
@@ -20,6 +32,7 @@ To access the administrator panels, it is first necessary to login as root,using
 ![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/figure6ajs.png)     
 *GUI DHuS Login Panel user view* 
 
+<a name="PanelsDescription"></a>
 ##Panels description   
 The DHuS provides the Administrator a serires of Panles to fulfil every service. We report here how to access them using the GUI.    
 The list of panels is provided here below:     
@@ -38,7 +51,8 @@ Once the administrator has logged in, the  panels are accessible clicking on the
 ![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/figure8.png)    
 *GUI Administration Panels*   
 
-**Products Upload**   
+<a name="ProductsUpload"></a> 
+##**Products Upload**   
 The Upload feature is available only to the administrator. DHuS system makes available an incoming space to let the user upload a product. Once uploaded, data is processed to be referenced by DHuS clients. 
 This panel gathers all the information necessary to perform the upload (at least the path to the product).     
 Optional: Assignation of a product to a collection is manually set by the uploader. A product can be included in any collection.
@@ -93,7 +107,7 @@ To create a file scanner
 The DHuS allows synchronizing products from another DHuS instance. For further details, go to OData Synchronizers panel section.   
 
 
-
+<a name="DHuSAdministration"></a>
 **DHuS Administration**
 
 The DHuS provides the Management panel and it contains 4 subpanels called
@@ -106,11 +120,14 @@ The DHuS provides the Management panel and it contains 4 subpanels called
 
 ![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/fig-10.png)      
 *Management Subpanel (GUI)*
-Here follows a brief tutorial for using the management panels via the GUI.       
+Here follows a brief tutorial for using the management panels via the GUI. 
+
+<a name="UserManagementPanel"></a>       
 **User Management Panel**   
 The administrator management panel allows managing users. This means that the administrator can create, edit and delete any user.     
 
 ![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/figure12.png)
+
 DHuS User Management panel (GUI)      
 DHuS implements a user management system that prevents uncontrolled accesses and manipulations from unauthorized users. DHuS proposes a user authentication and authorization strategy defined in its internal Database. Users are able to register or sign-in and the administrator are able to configure the user/group permissions from the Web user interface.
 
@@ -174,7 +191,7 @@ How to delete the selected user?
 <li>	The email notification service will send an e-mail to the deleted user with the communication of the deletion process. </li>
 </ul>
 
-
+<a name="CollectionManagementPanel"></a>
 **Collection Management Panel**    
 Products are gathered into collections. Collections management consists of:   
 1.creating or deleting collections;   
@@ -225,13 +242,14 @@ How to delete a collection/sub collection?:
 
 Note that the collection management page includes a  searching box. It is useful to know if a product is collected somewhere.    
         
-       
+<a name="SystemManagementPanel"></a>       
 **System Management Panel**   
 
 The system management is used to configure basic information in the system.
 The Administrator from here can access the following sections:       
 <ol>   
-1. Mail configuration: In this form it is possible to configure the SMTP server address, the username, password and e-mail account details to send communications to the users. 
+1. Mail configuration: In this form it is possible to configure the SMTP server address, the 
+2. username, password and e-mail account details to send communications to the users. 
 
 ![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/fig-15.png)
 *Mail configuration management Panel*
@@ -258,7 +276,7 @@ To do so, perform the following steps:
 </ul>
 5. Synchronize Local archive :obsolete function, do not use;     
 
-
+<a name="EvictionManagementPanel"></a>
  **Eviction Management Panel**   
 
 The Data Eviction Service is responsible for removing data to keep to the  Data Store sizing constraints. The maximum occupied space for each archive depends on theconfiguration.  The administrator can handle the eviction of products through the Eviction panel here below.
@@ -285,6 +303,7 @@ In order to activate the eviction, perform the following steps:
  <li>  Configure the Maximum disk usage before eviction depending on how much of the machine space can be occupied by data before triggering the eviction (e.g. if the parameter is set to 80, when the disk will be full at 80%, the eviction will be automatically activated)
  <li> Configure the Minimal keeping period for a product parameter. This parameter represents the number of days each product will be kept in the DHuS archive before being evicted (e.g if the parameter is set to 3, the eviction will delete all the products present in the archive for more than three days.)   
 </ul>
+<a name="OdataSynchronizersPanel"></a>
 **OData Synchronizers panel**    
 
 The OData synchronizers panel is available just in the AJS GUI. The DHuS provides end users an OData synchronizer service able to populate a DHuS instance with the data stored on the rolling archive of another DHuS instance. The DHuS instance that contains the data to be synchronized is called back end instance, while the one that shall receive the data is called front end instance. 
@@ -352,259 +371,9 @@ The Administrator shall:
 Next to an existing synchronizer tab, there are also buttons for starting and stopping the item. The play button is to start the synchronizer; the square button is to stop it.
 
 
-**Statistics**   
-The Statistic panel provided by DHuS allows monitoring the activities and connections handled by the software during a certain time-span. To enable these functions, it is necessary to insert in the start.sh the following line:
-
-`-Daction.record.inactive=false         \`    
-
-The Statistics functionality  is dedicated to the monitoring of the service activity through operation statuses and statistics. Most of these values are extracted from the DHuS Database that is fed regularly by any interested service but in particular by the dedicated DHuS Monitoring Service.
-
-**Scalability Mode Configuration**  
-The objective of the configuration in scalability mode is to have several DHuS instances acting as one to share the user load and the products information: the deployment in scalable mode is completely transparent to the user.   
-**1. Architecture and Deploy**   
-The deployment of DHuS in scalable mode suitable for the operational scenario foresees three main actors:    
-•	one DHuS acting as master   
-•	one or more DHuS acting as replicas   
-•	one proxy   
-**Master**  
-The DHuS master is accessible to users only during the account registration process. It is the one and only product data source, meaning, it is in charge of the ingestion/synchronization of products.  
-**Replicas**    
-The DHuS replicas are master’s doppelgangers. The product and user information stored in the DHuS master are broadcasted to all the replicas so that users can access product metadata. Replicas are accessed by the users (through the proxy) in fact they have access to internet. Consequently, the user information (e.g. profile changes) is spread from the replicas to the master.
-It is mandatory that master and replicas share the data store to allow access to ingested products.    
-**Proxy**    
- HAproxy is responsible of load balancing among the replicas. The implemented configuration and algorithms used are the following: 
-Note: This configuration has been tested successfully with HAproxy, other proxies are not yet tested.
-
-    backend replicas  
-    balance leastconn 
-    stick-table type ip size 200k expire 30m
-    stick on src   
-    option httpchk
-    server dhus1 replica1_ip:80 check 
-    server dhus2 replica2_ip:80 check
-
-
-1.	The balance algorithm is  leastconn ([https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4.2-balance](https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4.2-balance "https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4.2-balance"))
-2.	The option httpchk has been added ([https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#option%20httpchk](https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#option%20httpchk "https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#option%20httpchk"))
-
-
-**2. Installation and configuration procedure** 
-
-Download the [installation package](https://github.com/SentinelDataHub/DataHubSystem/releases/tag/0.12.5-6-osf) and install it under `/data/dhus-[release number]`	     
-**Master configuration**  
-Configure the start.sh of the master as follows:
-
-    java -Dhttp.proxyHost=[external proxy IP] -Dhttp.proxyPort=[proxy port] -Dhttp.nonProxyHosts="[machine internal IP without last block].*"\
-     -server -XX:MaxPermSize=256m -Xms24g -Xmx24g  \
-     -Djava.rmi.server.hostname=127.0.0.1\
-     -Djava.library.path=${NATIVE_LIBRARIES} \
-     -Duser.timezone=UTC \
-     -Dcom.sun.media.jai.disableMediaLib=true\
-     -Dsun.zip.disableMemoryMapping=true \
-     -Ddhus.scalability.active=true  \
-     -Ddhus.scalability.local.protocol=http  \
-     -Ddhus.scalability.local.ip=[internal IP of the DHuS master]   \
-     -Ddhus.scalability.local.port=[DHuS port] \
-     -Ddhus.scalability.local.path=/  \
-     -cp "etc:lib/*" fr.gael.dhus.DHuS &
-
-Note: if it is necessary to monitor DHuS via jmx, the necessary parameters shall be configured here	
-In the dhus.xml  the external path parameter which shall be the following:
-
-
-    <external protocol="http" host="URL for user access(e.g.scihub-test.esa.int)" port="80" path="/dhus" />	
-The Server.xml shall be configured:  
-
-**Server.xml**
-
-    <?xml version='1.0' encoding='utfI8'?>
-    <Server port="8005" shutdown="SHUTDOWN">
-    <Service name="DHuSIService">
-    <Connector port="8080"
-    protocol="org.apache.coyote.http11.Http11NioProtocol"
-    maxConnections="1000"
-    maxThreads="400"
-    keepAliveTimeout="2000"
-    URIEncoding="ISOI8859I1"
-    compression="on"
-    compressionMinSize="1024"
-    
-    compressableMimeType="application/json,application/javascript,application/xhtml+xml,applica
-    tion/xml,text/html,text/xml,text/plain,text/javascript,text/css"/>
-    <Engine name="DHuSIEngine" defaultHost="localhost">
-    <Host name="localhost" appBase="webapps" deployOnStartup="true">
-    <Valve className="org.apache.catalina.valves.AccessLogValve"
-    prefix="access_logI"
-    suffix=".txt"
-    directory="logs"
-    pattern="%h %l %u %t %r %s %b %I %D"/>
-    <!--Access Filter Settings are
-    pattern: the regular expression to filter user request.
-    i.e."^.*(/odata/v1/).*$" only manages odata request.
-    or "^((? /(home|new)/).)*$" consider all request but the UI.
-    useLogger="true|false" show or hide the user access in logger output.
-    This setting does impact keeping internal track of therequest.
-     enable="true|false"activate/deactivate the valve.-->
-    <Valve className="fr.gael.dhus.server.http.valve.AccessValve"
-    pattern=".*"
-    useLogger="true"
-    enable="true"/>
-    </Host>
-    </Engine>
-    </Service>
-    </Server>
 
 
 
-and log4j.xml shall be configured:
-
-**log4j.xml**
-
-    <?xml version="1.0" encoding="UTFI8"?>
-    <Configuration>
-    <Properties>
-    <Property name="pattern"
-    >[$${sys:fr.gael.dhus.version}][%d{DEFAULT}{UTC}][%I5p] %m (%file:%line I %t)%n%throwable
-    </Property>
-    </Properties>
-    <Appenders>
-    <Console name="stdout" target="SYSTEM_OUT">
-    <PatternLayoutpattern="${pattern}"/>
-    <Filters>
-    <ThresholdFilterlevel="DEBUG"/>
-    <ThresholdFilter level="WARN" onMatch="DENY"
-    onMismatch="NEUTRAL"/>
-    </Filters>
-    </Console>
-    <Console name="stderr" target="SYSTEM_ERR">
-    <PatternLayout pattern="${pattern}"/>
-    <Filters>
-    <ThresholdFilter level="WARN"/>
-    </Filters>
-    </Console>
-    <RollingFilename="RollingFile"fileName="dhus.log"
-    filePattern="dhusI%d{yyyyIMMIdd}.log">
-    <PatternLayout>
-    <Pattern>${pattern}</Pattern>
-    </PatternLayout>
-    <Policies>
-    <TimeBasedTriggeringPolicy interval="1"modulate="true"/>
-    </Policies>
-    <Filters>
-    <ThresholdFilter level="DEBUG"/>
-    </Filters>
-    </RollingFile>
-    </Appenders>
-    <Loggers>
-    <logger name="fr.gael.dhus"level="info"/>
-    <loggername="fr.gael.drb.query.FunctionCallExpression"level="debug"/>
-    <logger name="org.apache.cxf.jaxrs.utils.JAXRSUtils" level="error"/>
-    <logger name="org.apache.solr"level="error"/>
-    <Root level="info">
-    <AppenderRef ref="stderr"/>
-    <AppenderRef ref="stdout"/>
-    <AppenderRef ref="RollingFile"/>
-    </Root>
-    </Loggers>
-    </Configuration>
-
-**Replica configuration**  
-Configure the start.sh of the replicas as follows:
-
-    java -Dhttp.proxyHost=[external proxy IP] -Dhttp.proxyPort=[proxy port] -Dhttp.nonProxyHosts="[machine internal IP without last block].*| [URL for user access]"\
-     -server -XX:MaxPermSize=256m -Xms24g -Xmx24g          \
-     -Djava.rmi.server.hostname=127.0.0.1          \
-     -Djava.library.path=${NATIVE_LIBRARIES}       \
-     -Duser.timezone=UTC                           \
-     -Dcom.sun.media.jai.disableMediaLib=true      \
-     -Dsun.zip.disableMemoryMapping=true           \
-     -Ddhus.scalability.active=true                \
-     -Ddhus.scalability.replicaId=[id of the replica as set in the proxy e.g. 1]                \
-     -Ddhus.scalability.dbsync.master=http://[internal IP of the DHuS master]:[DHuS port]/ \
-     -Ddhus.scalability.local.protocol=http         \
-     -Ddhus.scalability.local.ip=[internal IP of the DHuS replica] \
-     -Ddhus.scalability.local.port=[DHuS replica port] \
-     -Ddhus.scalability.local.path=/                \
-     -cp "etc:lib/*" fr.gael.dhus.DHuS &
-
-Note: if it is necessary to monitor DHuS via jmx, the necessary parameters shall be configured here	
-The dhus.xml shall be configured as above, but the external path parameter which shall be as follows:
 
 
-    <external protocol="http" host="URL for user access(e.g.scihub-test.esa.int)" port="80" path="/dhus" />   	
-Server.xml and log4j.xml shall be configured as above
-
-Start DHuS master and replicas.	
-
-In the *replicas log* the following kind of message is displayed:
-
-    [0.12.1][2016-10-05 09:36:48,762][INFO ] 21 data and 3 batches loaded during push request from dhus-master-group:000:000.  There were 0 batches in error (DataLoaderService.java:385 - http-nio-8081-exec-2)
-
-In the *master log* the following kind of message is displayed: 
-
-    [0.12.1][2016-10-05 11:19:25,360][INFO ] 1 data and 1 batches loaded during push request from dhus-replica-group:002:002.  There were 0 batches in error (DataLoaderService.java:385 - http-nio-8081-exec-3)
-    
-**3.How to use a scalable DHuS**   
-Here follows a list of usage hints to operate a DHuS deployed in scalable mode.   
-1.The master DHuS is the only product source, so it shall act as:   
-   a.FE instance (via OData synchronizers)  
-   b.ingesting instance      
-2.The product deletion and eviction shall be executed on the replicas.    
-3.User registration shall be executed on a single instance    
-4.Start new replicas always after master   
-
-•	Not all the DB tables are replicated among master and replicas (e.g. the configuration of a single instance is not shared with the others). Please find below the list of tables which are involved in the replication process:   
--USERS      
--USER_ROLES   
--ACCESS_RESTRICTION   
--USER_RESTRICTIONS   
--PREFERENCES   
--SEARCH_PREFERENCES   
--SEARCHES   
--PRODUCTCARTS   
--CART_PRODUCTS   
--COLLECTIONS   
--COLLECTION_PRODUCT   
--COLLECTION_USER_AUTH   
--PRODUCTS   
--PRODUCT_USER_AUTH   
--CHECKSUMS   
--METADATA_INDEXES  
- 
-**4. Migration Scenario from previous version to 0.12.5-6-osf**   
-The migration scenario is close to the usual procedure:
-
-1. To create another node from an existing one, copy the database and Solr index. This step can be skipped in order to simply migrate an existing node.
-2.	Add this option to the start.sh: `-Ddhus.scalability.active=false` to ensure the scalability is disabled.
-3.	Remove this file : `{varfolder}/solr/dhus/conf/managed-schema`
-4.	Start the DHuS in v.0.12.5-6-osf to perform database migration.
-
-At this point, the environment is upgraded to the 0.12.5-6-osf version. The node is also ready to be restarted with scalability active `(-Ddhus.scalability.active=true)`. It is required to configure the scalability options in start.sh before restarting it as the scalability group master.
-
-**5 Creating a new Replica in scalability group**
-
-To create a new replica, use this procedure: 
-
-1.	Stop all synchronizers.
-2.	Shutdown all nodes in the scalability group (replicas and master).
-3.	Copy database and Solr index of the master in the new node.
-4.	Add the option to the start.sh of the master:  `-Dauto.reload=false` to prevent the master from sending all its database to the new replica.
-5.	Configure the replica in its start.sh, according to the described scalability options.
-6.	Add the option to the start.sh of the replica:` -Ddhus.scalability.dbsync.clear=true` to clear the SymmetricDS entries from the dump.
-7.	Restart the master of this scalability group.
-8.	Start the new replica, and restart the other replicas.
-9.	Remove the `-Ddhus.scalability.dbsync.clear=true` option from the start.sh so it is not used for subsequent restarts.
-10.	Product synchronizers, and user requests can now be activated.
-
-The migration scenario should only be done once inside a future scalability group to produce the reference node, also known as the master of this group.
-Two upgraded nodes in v. 0.12.5-6-osf will generate different UUIDs for the same user, putting them inside the same scalability group must be avoided as it can potentially introduce constraint violations when replicating the databases.
-
-The best approach is to choose one instance that will become the master of the new scalability group. Then delete the database/solr index of every other instance of the DHuS, which will become the replicas. Finally, follow the “Creating a new Replica in scalability group” procedure.
-
-***Warnings***
-
-Several separately upgraded instances of the DHuS in v. 0.12.-osf must not be added to the same scalability group as UUID of users will be different across those instances. An instance must be designated as the master and the others must overwrite their database and Solr index with the data from the master, see dedicated procedures.
-
-OData synchronization must be avoided in 0.12.5-6-osf version inside the same scalability group in order to not duplicate Users, which would induce a constraint violation.
-In addition, a User synchronizer between two masters of different scalability group could be done to synchronize the User data.
 
