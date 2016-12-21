@@ -890,6 +890,7 @@ Configure the start.sh of the replicas as follows:
 **Step 8**: Add the option to the start.sh of the master: `-Dauto.reload=false` to prevent the master from sending its database to the replicas.   
 **Step 9**: Start DHuS master and wait until the startup process is complete.    
 Follow Steps 3, 4 and 5 of [previous procedure](#Replica) taking care of starting replicas one at a time.  
+Please note that at each new replica addition to the cluster it is necessary to shutdown the master and start the replicas form the newest to the oldest.
 
 
 
