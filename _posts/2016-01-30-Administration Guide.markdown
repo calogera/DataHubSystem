@@ -13,7 +13,7 @@ categories: page
 [Collection Management Panel](#CollectionManagementPanel)   
 [System Management Panel](#SystemManagementPanel)    
 [Eviction Management Panel](#EvictionManagementPanel)    
-[Odata Synchronizer Panel](#OdataSynchronizerPanel) 
+[Odata Synchronizer Panel](#OdataSynchronizersPanel) 
 
 <a name="Login"></a> 
 
