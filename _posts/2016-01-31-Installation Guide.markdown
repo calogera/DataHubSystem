@@ -12,11 +12,11 @@ categories: page
 [Software Configuration Manual](#SoftConManual)    
 [User Interface Configuration Manual](#UserInterfaceConfigurationManual)     
 [Advanced Configuration](#AdvancedConfiguration)
-
+[Version Upgrade from 0.9.1-osf to 0.12.5-6-osf](#VersionUpgradetoNew)
 [Scalability Mode Configuration](#Scalability)             
 [Architecture and Deploy](#ArchitectureDeploy)          
 [Installation and Configuration procedure with an empty database](#InstallationConfigurationEmptyDB)     
-[Installation and Configuration procedure with an already existing empty database ](#InstallationConfigurationDB)    
+[Installation and Configuration procedure with an already existing empty database](#InstallationConfigurationDB)    
 
 ##Introduction <a name="Introduction"></a> 
 The DHuS is a web application, running within a Java Virtual Machine. All its middleware components, such as database and application servers, run inside the JVM container.     
@@ -621,7 +621,7 @@ Such parameters are java system properties which can set by adding
 
 ---------------------------------------------------------------------------------------------------------------------------------------
 
-**Version Upgrade from 0.4.-1- to 0.9.1-osf** 
+**Version Upgrade from 0.4.-1- to 0.9.1-osf**<a name="VersionUpgradetoNew"> </a>
 
 Dependencies
 This installation manual provides the upgrading DHuS version manual which means the installation of the reference version using a DB created during an installation of an older version of DHuS. The following instructions are ensured for all versions after the 0.4.3-1. 
