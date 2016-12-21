@@ -619,12 +619,7 @@ Such parameters are java system properties which can set by adding
 7. Considering that v.0.12.5-6 introduces Scalability feature we suggest to see the [Scalability Configuration](http://calogera.github.io/DataHubSystem/page/2016/01/31/Installation-Guide.html#Scalability) session.
 
 
-
-
-
-
-
-
+---------------------------------------------------------------------------------------------------------------------------------------
 
 **Version Upgrade from 0.4.-1- to 0.9.1-osf** 
 
