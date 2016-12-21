@@ -4,7 +4,16 @@ title:  "Installation Guide"
 date:   2016-01-31 15:40:56
 categories: page
 ---
+[Introduction](#Introduction)   
+[System Requirements](#SystemRequirements)    
+[Network Requirements](#NetworkRequirements)     
+[Software Requirements](#SoftwareRequirements)     
+[InstallationSetup](#InstallationSetup)    
+[Software Configuration Manual](#SoftConManual)    
+[User Interface Configuration Manual](#UserConfigurationManual)     
+[Advanced Configuration](#AdvancedConfiguration)       
 
+##Introduction <a name="Introduction"></a> 
 The DHuS is a web application, running within a Java Virtual Machine. All its middleware components, such as database and application servers, run inside the JVM container.     
 
 In order to allow integration into a hosting environment, the application needs to be installed and configured having well in mind what are the external interfaces to be used.    
@@ -28,7 +37,7 @@ Given the volume of normal Sentinels production, it is also recommended to use a
 
 <hr></hr>
 
-**System Requirements**         
+**System Requirements**<a name="SystemRequirements"></a>          
 Hardware Requirements       
 The technical specifications of the DHuS are provided the following Table.
 
@@ -90,7 +99,7 @@ The Linux based operating systems in which the DHuS operability has been tested 
   
 
 <hr></hr>
-**Network Requirements**    
+**Network Requirements** <a name="NetworkRequirements"></a>  
 
 DHuS is accessed primarily via HTTP and FTP interface. 
 The Installation procedure of the DHuS SW must be performed using a non-privileged user (not root); application installed in this way cannot start services listening on ports numbers smaller than 1024. 
@@ -128,7 +137,8 @@ Following table describes the default DHuS network ports configuration:
 
   Table 2: Network ports configuration  
 <hr> </hr>
-**Software Requirements**
+**
+Requirements**<a name="SoftwareRequirements"></a> 
       
 DHuS software is fully written in java and can be considered portable to any hardware platforms supported by JRE (Java Runtime Environment). The DHuS supports:
 -	all the Java JDK versions before the 7th  (version 8 not yet supported) 
@@ -152,7 +162,7 @@ In this case, make sure the apache version compatible with DHuS is the number 2.
 The httpd v command tells which config file Apache is using.
 
 
-**Installation and Setup**       
+**Installation and Setup** <a name="InstallationSetup"></a>       
 Installation Manual   
 To install the service:     
 <ol>
@@ -178,7 +188,7 @@ Note that the incoming and the Local archive shall be two different folders (e.g
 *DHuS directories objectives*
 
 <hr> </hr>
-**Software Configuration Manual**
+**Software Configuration Manual**<a name="SoftConfManual"></a> 
 
 DHuS configuration files are contained in the etc folder created after the launch of the .shar installation package: 
  	
@@ -306,7 +316,7 @@ This parameter indicates the server hostname.
     
 The log4j2.xml contains the log settings. It is possible to raise or lower the log level as needed.
  
-**User Interface Configuration Manual**        
+**User Interface Configuration Manual**  <a name="UserInterfaceConfigurationManual"></a>       
 
 The DHuS is  equipped with AJS GUI. This section deals with the configurability of the AJS GUI which allows a wide set of configuration actions which do not need a restart of DHuS to be applied.
 Due to the growth of the different centres and related installations, a new configuration management module has been added into the AJS web app. It allows configuring various aspects of the GUI; mainly it is related to style, texts and layout:     
@@ -332,7 +342,7 @@ They are:
 *	`appconfig.json (includes 1,2,3,4,5) `     
 *	`styles.json (includes 6,7) `     
 
-**Advanced Search Configuration**     
+**Advanced Search Configuration** <a name="AdvancedConfiguration"></a>    
 <hr> </hr> 
 A special attention goes to the configuration of the advanced search mission specific fields. 
 The configuration file appconfig.json has been updated in order to manage mission specific filters. 
@@ -410,8 +420,7 @@ Here below an example of filters configuration specific for S1 and S2 missions.
 Once you have changed a value in the file, you only need to refresh your browser to see the change immediately applied. **No need to restart the DHuS**.
 
 <hr></hr>
-**Version Upgrade**
-     
+**Version Upgrade** 
 
 Dependencies
 This installation manual provides the upgrading DHuS version manual which means the installation of the reference version using a DB created during an installation of an older version of DHuS. The following instructions are ensured for all versions after the 0.4.3-1. (to be confirmed by AIV).
@@ -480,6 +489,7 @@ iso_country_name: synonym1, synonym2
 
 Table 3: Configuration file changes from 0.4.3-1 to 0.9.0-2 version       
 <hr> </hr> 
+
 **DHuS version updating manual**
 
 Many aspects of DHuS first installation dont need to be repeated when upgrading application to a new release. In the following procedures the reference version will be called new_version and the older version, the version previously installed on the same instance, will be called old_version     
@@ -521,6 +531,9 @@ if in the list of active PID, one of them is reporting the text of the start.sh 
 14.Start the new DHuS version            
 `nohup /bin/bash start.sh &> dhus-<new_version>/logs/logs.txt &`           
 </ol>    
+
+
+
 
 **Example of configuration changes updating DHuS from 0.4.3-1 version to 0.9.0-2 version**    
 
@@ -592,6 +605,15 @@ Once the DHuS files are configured as shown in Software Configuration section, e
 
 To stop DHuS, execute, as dhus user, the following command in the folder where the DHuS is installed:     
 `/bin/bash stop.sh` 
+
+
+
+
+
+
+
+
+
 
 #  Scalability Mode Configuration
 The objective of the configuration in scalability mode is to have several DHuS instances acting as one to share the user load and the products information: the deployment in scalable mode is completely transparent to the user.   
