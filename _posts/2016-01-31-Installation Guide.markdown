@@ -425,7 +425,8 @@ Here below an example of filters configuration specific for S1 and S2 missions.
 Once you have changed a value in the file, you only need to refresh your browser to see the change immediately applied. **No need to restart the DHuS**
 
 <hr></hr>
-**Version Upgrade from 0.9.1-osf to 0.12.5-6-osf**   
+--------------------------------------------------------------------------------------------------------------------
+**Version Upgrade from 0.9.1-osf to 0.12.5-6-osf**  <a name="VersionUpgradetoNew"> </a> 
 Here below the list of configuration changes present from 0.9.1-osf to 0.12.5-6-osf.
 
 
@@ -621,7 +622,7 @@ Such parameters are java system properties which can set by adding
 
 ---------------------------------------------------------------------------------------------------------------------------------------
 
-**Version Upgrade from 0.4.-1- to 0.9.1-osf**<a name="VersionUpgradetoNew"> </a>
+**Version Upgrade from 0.4.-1- to 0.9.1-osf**
 
 Dependencies
 This installation manual provides the upgrading DHuS version manual which means the installation of the reference version using a DB created during an installation of an older version of DHuS. The following instructions are ensured for all versions after the 0.4.3-1. 
