@@ -10,7 +10,7 @@ categories: page
 [Software Requirements](#SoftwareRequirements)     
 [InstallationSetup](#InstallationSetup)    
 [Software Configuration Manual](#SoftConManual)    
-[User Interface Configuration Manual](#UserConfigurationManual)     
+[User Interface Configuration Manual](#UserInterfaceConfigurationManual)     
 [Advanced Configuration](#AdvancedConfiguration)       
 
 ##Introduction <a name="Introduction"></a> 
