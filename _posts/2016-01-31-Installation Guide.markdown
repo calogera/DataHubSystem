@@ -11,7 +11,11 @@ categories: page
 [InstallationSetup](#InstallationSetup)    
 [Software Configuration Manual](#SoftConManual)    
 [User Interface Configuration Manual](#UserInterfaceConfigurationManual)     
-[Advanced Configuration](#AdvancedConfiguration)       
+[Advanced Configuration](#AdvancedConfiguration)  
+[Scalability Mode Configuration](#Scalability)
+[Architecture and Deploy](#ArchitectureDeploy)  
+[Installation and Configuration procedure with an empty database](#InstallationConfigurationEmptyDB)   
+[Installation and Configuration procedure with an already existing empty database ](#InstallationConfigurationDB)  
 
 ##Introduction <a name="Introduction"></a> 
 The DHuS is a web application, running within a Java Virtual Machine. All its middleware components, such as database and application servers, run inside the JVM container.     
@@ -164,23 +168,23 @@ The httpd v command tells which config file Apache is using.
 
 **Installation and Setup** <a name="InstallationSetup"></a>       
 Installation Manual   
-To install the service:     
-<ol>
-1. Create a user named *dhus*. Every step in the installation procedure, if not explicitly mentioned, shall be performed as dhus user.   
-2. Create the installation folder      
-`mkdir -p [installation-folder]`       
-3. Download the DHuS package (shar package) and save it into the installation folder              
-4. Change the permissions on the file.       
-`chmod +x dhus-XX.XX.XX.shar`       
-5. Launch       
-`./dhus-XX.XX.XX.shar`         
-(the package will autoinstall).        
-Once executed, the system setting configuration file can be accessed and updated.           
-6. Once the autoinstall procedure is complete, create the following directories for the local archive, the incoming products, the database etc..:      
-`Local archive /[install-dir]/data-local`            
-`Var /[install-dir]/var/`             
-`Incoming /[free_dir]/incoming`           
-</ol>
+To install the service:         
+
+1. Create a user named *dhus*. Every step in the installation procedure, if not explicitly mentioned, shall be performed as dhus user.
+2. Create the installation folder          
+`mkdir -p [installation-folder]`           
+3. Download the DHuS package (shar package) and save it into the installation folder                   
+4. Change the permissions on the file.          
+`chmod +x dhus-XX.XX.XX.shar`          
+5. Launch          
+`./dhus-XX.XX.XX.shar`            
+(the package will autoinstall).             
+Once executed, the system setting configuration file can be accessed and updated.              
+6. Once the autoinstall procedure is complete, create the following directories for the local archive, the incoming products, the database etc..:          
+`Local archive /[install-dir]/data-local`               
+`Var /[install-dir]/var/`                
+`Incoming /[free_dir]/incoming`              
+   
 Note that the incoming and the Local archive shall be two different folders (e.g. one cannot contain the other and vice versa) not necessarily under the DHuS installation folder. Moreover they shall be located in a partition of the machine where there is a certain amount of space (more details would be specified in Table 1), especially for the incoming folder (the data managed by DHuS will be located here). The graph in Figure 3 depicts the purpose of the directories in the DHuS archive. 
 
 ![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/figure3.png)    
@@ -493,7 +497,7 @@ Table 3: Configuration file changes from 0.4.3-1 to 0.9.0-2 version
 **DHuS version updating manual**
 
 Many aspects of DHuS first installation dont need to be repeated when upgrading application to a new release. In the following procedures the reference version will be called new_version and the older version, the version previously installed on the same instance, will be called old_version     
-<ol>   
+ 
 1. Access to the chosen installation folder (/data is recommended) and create the installation directory:    
 `mkdir dhus-<new_version>`    
 (Its not necessary to touch the already present archive, the database is copied and then migrated at first start, so links to products remain intact and continue to point to the same archive)    
@@ -530,7 +534,7 @@ if in the list of active PID, one of them is reporting the text of the start.sh 
 ]>`                             
 14.Start the new DHuS version            
 `nohup /bin/bash start.sh &> dhus-<new_version>/logs/logs.txt &`           
-</ol>    
+
 
 
 
@@ -588,8 +592,8 @@ Server.xml configuration
 
 <ul>
  <li>	Open dhus-<new_version>/etc/server.xml.orig (that is the new one- the old one does not exist in version 0.4.3-1)    
- 	<li>Chech the configuration of tomcat parameters, especially the following line (in 0.4.3-1 version tose information were in the dhus.xml file)    
-      <li>  &lt;Connector port=  ` `&gt;</li> 
+ 	<li>Chech the configuration of tomcat parameters, especially the following line (in 0.4.3-1 version tose information were in the dhus.xml file)      
+      <li>  &lt;Connector port=  &gt;</li> 
  	<li> Save server.xml.orig and remane it as server.xml    
 `mv server.xml.orig server.xml` 
    </ul>
@@ -607,23 +611,18 @@ To stop DHuS, execute, as dhus user, the following command in the folder where t
 `/bin/bash stop.sh` 
 
 
-
-
-
-
-
-
-
-
 #  Scalability Mode Configuration
-The objective of the configuration in scalability mode is to have several DHuS instances acting as one to share the user load and the products information: the deployment in scalable mode is completely transparent to the user.   
-## 1. Architecture and Deploy
+The objective of the configuration in scalability mode is to have several DHuS instances acting as one to share the user load and the products information: the deployment in scalable mode is completely transparent to the user.
+
+   
+   
+## 1. Architecture and Deploy <a name="ArchitectureDeploy"></a>
 The deployment of DHuS in scalable mode suitable for the operational scenario foresees three main actors:   
 - one DHuS acting as master   
 - one or more DHuS acting as replicas   
 - one proxy   
  
-![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/scalability.jpg)   
+![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/scalability2.jpg)   
 
 **Master**  
 The DHuS master is the one and only product data source, meaning, it is in charge of the ingestion/synchronization of products. 
@@ -636,7 +635,7 @@ User registration shall be executed only on one of the replicas (to avoid databa
 
 **Proxy**   
 A proxy is needed for load balancing among the replicas. It must be configured to redirect incoming traffic to the DHuS replicas based on a load balancing algorithm with sticky sessions. Please refer to the proxy documentation for instructions on how to implement this.
-##2. Installation and configuration procedure with an empty database.      
+##2. Installation and configuration procedure with an empty database <a name="InstallationConfigurationEmptyDB"></a>      
 
 <a name="Download"></a>
 **Step 1**: **Download** the [installation package](https://github.com/SentinelDataHub/DataHubSystem/releases/tag/0.12.5-6-osf) and install on all machines following       
@@ -659,7 +658,7 @@ A proxy is needed for load balancing among the replicas. It must be configured t
  
 <a name="Replica"></a>
 
-**Step 3**: **Replica Configuration**   
+**Step 3**: **Replica Configuration**  InstallationConfigurationEmptyDB 
 Configure the start.sh of the replicas as follows:
 
     -Dhttp.proxyHost=[external proxy IP] \
@@ -679,11 +678,12 @@ Configure the start.sh of the replicas as follows:
     <external protocol="http" host="proxy hostname" port="proxy port" path="/dhus" /> 
 **Step 4**: Start DHuS master and wait until the startup process is complete.  
 **Step 5**: Start DHuS replicas.    
-##3. Installation and configuration procedure with an already existing database.   
+##3. Installation and configuration procedure with an already existing database <a name="InstallationConfigurationDB"></a>       
 **Step 1**: follow [Step 1](#Download) in previous procedure   
 **Step 2**: follow [Step 2](#MasterC) in previous procedure, configuring the scalability option as follows.
 
-    -Ddhus.scalability.active=false  \
+  `  -Ddhus.scalability.active=false  \`
+
 **Step 3**: On the master, copy the database and Solr index (in {varfolder}/database and {varfolder}/solr, respectively), overriding the existing directories  
 **Step 4** : Remove this file : {varfolder}/solr/dhus/conf/managed-schema, if present.     
 **Step 5**: Start the DHuS Master to perform a **database migration**.   
@@ -692,6 +692,15 @@ Configure the start.sh of the replicas as follows:
 **Step 8**: Add the option to the start.sh of the master: `-Dauto.reload=false` to prevent the master from sending its database to the replicas.   
 **Step 9**: Start DHuS master and wait until the startup process is complete.    
 Follow Steps 3, 4 and 5 of [previous procedure](#Replica) taking care of starting replicas one at a time.  
+
+
+
+
+
+
+
+
+
 
 
 
