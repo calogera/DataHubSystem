@@ -817,7 +817,7 @@ The deployment of DHuS in scalable mode suitable for the operational scenario fo
 - one or more DHuS acting as replicas   
 - one proxy   
  
-![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/scalability2.jpg)   
+![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/scalability.jpg)   
 
 **Master**  
 The DHuS master is the one and only product data source, meaning, it is in charge of the ingestion/synchronization of products. 
