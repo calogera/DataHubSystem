@@ -42,7 +42,7 @@ Given the volume of normal Sentinels production, it is also recommended to use a
 
 <hr></hr>
 
-**System Requirements**<a name="SystemRequirements"></a>          
+**System Requirements** <a name="SystemRequirements"></a>          
 Hardware Requirements       
 The technical specifications of the DHuS are provided the following Table.
 
@@ -382,60 +382,57 @@ where [filter_array] is an array of mission-specific filters with the following 
 Here below an example of filters configuration specific for S1 and S2 missions. 
 
 
-
-`
- 
-"missions":
+     "missions":
     
       [
-
-        {
-
-            "name": "Mission: Sentinel-1",
-            "indexname": "platformname",
-            "indexvalue": "Sentinel-1",            
-            "filters": [
-                {
-
-                    "indexname": "producttype",
-                    "indexlabel": "Product Type (SLC,GRD,OCN)",
-                    "indexvalues": "SLC|GRD|OCN",
-                    "regex": ".*"
-                },
-
-                {
-                    "indexname": "polarisationmode",
-                    "indexlabel": "Polarisation (e.g.HH,VV,HV,VH,...)",
-		    	"indexvalues": "HH|VV|HV|VH|HH+HV|VV+VH",
-                    "regex": ".*"
-                },
-
-                {
-                    "indexname": "sensoroperationalmode",
-                    "indexlabel": "Sensor Mode (SM,IW,EW,WV)",
-                    "indexvalues": "SM|IW|EW|WV",
-                    "regex": ".*"
-
-                },
-                {
-                    "indexname": "relativeorbitnumber",
-                    "indexlabel": "Relative Orbit Number (from 1 to 175)",
-		    "regex": "[1-9]|[1-9][0-9]|[1-9][0-7][0-5]"
-		}
-            ]
-        },
-        {
-            "name": "Mission: Sentinel-2",
-            "indexname": "platformname",
-            "indexvalue": "Sentinel-2",
-            "filters": [
-                {
-                    "indexname": "cloudcoverpercentage",
-                    "indexlabel": "Cloud Cover % (e.g.[0 TO 9.4])"
-                }
-		]
-        }
-    ]`    
+    
+    {
+    
+    "name": "Mission: Sentinel-1",
+    "indexname": "platformname",
+    "indexvalue": "Sentinel-1",
+    "filters": [
+    {
+    
+    "indexname": "producttype",
+    "indexlabel": "Product Type (SLC,GRD,OCN)",
+    "indexvalues": "SLC|GRD|OCN",
+    "regex": ".*"
+    },
+    
+    {
+    "indexname": "polarisationmode",
+    "indexlabel": "Polarisation (e.g.HH,VV,HV,VH,...)",
+    			"indexvalues": "HH|VV|HV|VH|HH+HV|VV+VH",
+    "regex": ".*"
+    },
+    
+    {
+    "indexname": "sensoroperationalmode",
+    "indexlabel": "Sensor Mode (SM,IW,EW,WV)",
+    "indexvalues": "SM|IW|EW|WV",
+    "regex": ".*"
+    
+    },
+    {
+    "indexname": "relativeorbitnumber",
+    "indexlabel": "Relative Orbit Number (from 1 to 175)",
+    		"regex": "[1-9]|[1-9][0-9]|[1-9][0-7][0-5]"
+    		}
+    ]
+    },
+    {
+    "name": "Mission: Sentinel-2",
+    "indexname": "platformname",
+    "indexvalue": "Sentinel-2",
+    "filters": [
+    {
+    "indexname": "cloudcoverpercentage",
+    "indexlabel": "Cloud Cover % (e.g.[0 TO 9.4])"
+    }
+    		]
+    }
+    ]  
 Once you have changed a value in the file, you only need to refresh your browser to see the change immediately applied. **No need to restart the DHuS**
 
 <hr></hr>
