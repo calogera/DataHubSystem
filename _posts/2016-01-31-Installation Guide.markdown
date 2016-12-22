@@ -440,7 +440,8 @@ Once you have changed a value in the file, you only need to refresh your browser
 
 <hr></hr>
 --------------------------------------------------------------------------------------------------------------------
-**Version Upgrade from 0.9.1-osf to 0.12.5-6-osf**  <a name="VersionUpgradetoNew"> </a> 
+**Version Upgrade from 0.9.1-osf to 0.12.5-6-osf**  <a name="VersionUpgradetoNew"> </a>     
+
 Here below the list of configuration changes present from 0.9.1-osf to 0.12.5-6-osf.
 
 
@@ -448,76 +449,6 @@ In **`dhus.xml`** file add:
        
 `cryptType=""` and `cryptKey=""`  in `<database /> `tag. Specify tour encryption key, or leave empty if your database has not been encrypted.   
  
-**Version Upgrade from 0.4.-1- to 0.9.1-osf**
-
-Dependencies
-This installation manual provides the upgrading DHuS version manual which means the installation of the reference version using a DB created during an installation of an older version of DHuS. The following instructions are ensured for all versions after the 0.4.3-1. 
-Here below the list of configuration changes present from 0.4.3-1 to 0.9.1-osf Unless explicitly mentioned, the version which includes the change in configuration parameter is reported in the including version column.    
-
-
-<table border="2">
-    <tr>
-       <td> </td>
-       <td>CHANGE</td>
-       <td>INCLUDING VERSION</td>
-   </tr>
-   <tr>
-
-<td>start.sh</td>
-<td> -keep default GC behavior even if it is not explicitly specified
- 	-introduced the JVM "-server" flag to increase performances from 0.6.0 version (See http://www.oracle.com/technetwork/java/whitepaper-135217.html#2 for details) 
- 	-Added exhaustive list of the supported properties as comments.
- 	remove unused properties: 
--Daction.record.inactive=true 
- 	increase the memory usage to 56 Gb (-Xms56g -Xmx56g)
-</td>
-<td>> 0.5.5-2</td>
-</tr>
-
-      <td>dhus.xml</td>
-<td>support of passive port (default configuration passivePort="30200-30220"). For further details see: https://mina.apache.org/ftpserver-project/configuration_passive_ports.html
--	the internal server configuration has been included in server.xml file  so the line <server protocol="http" host="localhost" port="8080">  substituted with <server> 
--	The processing parameter in the system configuration group has been moved in the server.xml, so the line <processing corePoolSize="4" maxPoolSize = "10" queueCapacity="10000" /> has been substituted with <processing corePoolSize="4" />
-</td>
-  <td>>0.6.1</td>
- </tr>
-<td>server.xml</td>
-      <td>Some parameters in the "dhus.xml" configuration file have been removed and collected in this new (from 0.5.1 version) configuration file called server.xml:
- 	maxConnections can now be set in "server.xml" in Connector object
- 	maxThreads can now be set in "server.xml" in Connector object
- 	nio can now be set in "server.xml" in Connector object by setting protocol value to "org.apache.coyote.http11.Http11NioProtocol"
- 	port can now be set in "server.xml" in Connector object
- 	host is forced to "localhost", because tomcat is always deploying on localhost.
- 	protocol is forced to "http", according to existing working version (currently setting https on local server is not working, meaning this is not used.)This allowed to set any other tomcat configuration parameter. The full server.xml configuration can be found here : https://tomcat.apache.org/tomcat-7.0-doc/config/
-The full list of default tomcat parameter are provided here: https://tomcat.apache.org/tomcat-7.0-doc/config/http.html#Standard_Implementation, 
- 	Additionally, from 0.6.0 version 
-o	the default connector port has been changed (from 8080 to 8081) 
-o	the keep alive time out parameter has been introduced
-
-</td>
-<td>>0.5.1</td></tr>
-
-<td>synonyms.txt
-</td>
-<td>A fixed list of countries is proposed instead of free text, in order to improve the statistics and avoid variants for one country. This file lists the ISO 3166-1 country names  and their synonyms in the following format;
-iso_country_name: synonym1, synonym2
-</td>
-<td>>0.4.4 </td>
-</tr>
-<td>log4j2.xml
-</td>
-<td>Removed the hardcoded absolute path to log file (use relative path instead)
-</td>
-<td>0.6.1
-</td>
-</tr>
-
-</tr>
-</table>
-
-Table 3: Configuration file changes from 0.4.3-1 to 0.9.0-2 version       
-<hr> </hr> 
-
 **DHuS version updating manual**
 
 Many aspects of DHuS first installation dont need to be repeated when upgrading application to a new release. In the following procedures the reference version will be called new_version and the older version, the version previously installed on the same instance, will be called old_version     
