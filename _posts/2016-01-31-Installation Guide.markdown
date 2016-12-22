@@ -142,8 +142,8 @@ Following table describes the default DHuS network ports configuration:
 
   Table 2: Network ports configuration  
 <hr> </hr>
-**
-Requirements**<a name="SoftwareRequirements"></a> 
+
+**Requirements** <a name="SoftwareRequirements"></a> 
       
 DHuS software is fully written in java and can be considered portable to any hardware platforms supported by JRE (Java Runtime Environment). The DHuS supports:
 -	all the Java JDK versions before the 7th  (version 8 not yet supported) 
@@ -186,7 +186,7 @@ Once executed, the system setting configuration file can be accessed and updated
 `Var [install-dir]var/`                
 `Incoming [free_dir]incoming`              
    
-Note that the incoming and the Local archive shall be two different folders (e.g. one cannot contain the other and vice versa) not necessarily under the DHuS installation directory. Moreover they shall be located in a partition of the machine where there is a certain amount of space (more details would be specified in Table 1), especially for the incoming folder (the data managed by DHuS will be located here). The graph in Figure 3 depicts the purpose of the directories in the DHuS archive. 
+Note that the incoming and the Local archive shall be two different folders (e.g. one cannot contain the other and vice versa) not necessarily under the DHuS installation directory. Moreover they shall be located in a partition of the machine where there is a certain amount of space (more details would be specified in Table 1), especially for the incoming folder (the data managed by DHuS will be located here). The graph in Figure below depicts the purpose of the directories in the DHuS archive. 
 
 ![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/figure3.png)    
 
