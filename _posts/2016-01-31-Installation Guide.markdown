@@ -252,7 +252,21 @@ The following settings are necessary for DHuS application and the modification i
 `-Dsun.zip.disableMemoryMapping=true `    
 `-cp "etc:lib/javax.servlet-api-3.0.1.jar:lib/*" fr.gael.dhus.DHuS `    
 
+`http.timeout.socket`  Timeout in milliseconds for waiting for data.       
+`http.timeout.connection` Timeout in milliseconds until a connection is established.      
+`http.timeout.connection_request` Timeout in milliseconds used when requesting a connection from the connection manager.      
 
+Such parameters are java system properties which can set by adding    
+`-D<key>=<value> [ms]`
+
+NATIVE_LIBRARIES=${DHUS_HOME}/lib/native/`uname -s`-`uname -p`
+
+-Djava.library.path=${NATIVE_LIBRARIES}   
+
+` - dhus.search.innerTimeout`  (value is expected in milliseconds)Default timeout is set to 5000ms. It could be possible to modify this value at system startup        
+ `- max.rows.search.value`.  The parameter to configure the amount of products per page The default value is set to 100. 
+              
+Considering that v.0.12.5-6 introduces Scalability feature we suggest to see the [Scalability Configuration](http://calogera.github.io/DataHubSystem/page/2016/01/31/Installation-Guide.html#Scalability) session.
 
 **Configuration done  and now?**   
 Once you make sure that all the parameters are set correctly, allow start.sh script to be executable:     
@@ -434,30 +448,6 @@ In **`dhus.xml`** file add:
        
 `cryptType=""` and `cryptKey=""`  in `<database /> `tag. Specify tour encryption key, or leave empty if your database has not been encrypted.   
  
-
-
-
-In **`start. sh`** file add:  
- 
-1. http.timeout.socket: Timeout in milliseconds for waiting for data.   
-2. http.timeout.connection: Timeout in milliseconds until a connection is established.   
-3. http.timeout.connection_request: Timeout in milliseconds used when requesting a connection from the connection manager.   
-
-Such parameters are java system properties which can set by adding    
-`-D<key>=<value> [ms]`
-
-4. NATIVE_LIBRARIES=${DHUS_HOME}/lib/native/`uname -s`-`uname -p`
-
--Djava.library.path=${NATIVE_LIBRARIES}   
-
-5. ` - dhus.search.innerTimeout`  (value is expected in milliseconds)Default timeout is set to 5000ms. It could be possible to modify this value at system startup
-6. `- max.rows.search.value`.  The parameter to configure the amount of products per page The default value is set to 100. 
-              
-7. Considering that v.0.12.5-6 introduces Scalability feature we suggest to see the [Scalability Configuration](http://calogera.github.io/DataHubSystem/page/2016/01/31/Installation-Guide.html#Scalability) session.
-
-
----------------------------------------------------------------------------------------------------------------------------------------
-
 **Version Upgrade from 0.4.-1- to 0.9.1-osf**
 
 Dependencies
