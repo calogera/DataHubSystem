@@ -172,9 +172,9 @@ Installation Manual
 To install the service:         
 
 1. Create a user named *dhus*. Every step in the installation procedure, if not explicitly mentioned, shall be performed as dhus user.
-2. Create the installation folder          
+2. Create the installation directory          
 `mkdir -p [install-dir]`           
-3. Download the DHuS package (shar package) and save it into the installation folder                   
+3. Download the DHuS package (shar package) and save it into the installation directory                   
 4. Change the permissions on the file.          
 `chmod +x dhus-XX.XX.XX.shar`          
 5. Launch          
@@ -186,7 +186,7 @@ Once executed, the system setting configuration file can be accessed and updated
 `Var [install-dir]var/`                
 `Incoming [free_dir]incoming`              
    
-Note that the incoming and the Local archive shall be two different folders (e.g. one cannot contain the other and vice versa) not necessarily under the DHuS installation folder. Moreover they shall be located in a partition of the machine where there is a certain amount of space (more details would be specified in Table 1), especially for the incoming folder (the data managed by DHuS will be located here). The graph in Figure 3 depicts the purpose of the directories in the DHuS archive. 
+Note that the incoming and the Local archive shall be two different folders (e.g. one cannot contain the other and vice versa) not necessarily under the DHuS installation directory. Moreover they shall be located in a partition of the machine where there is a certain amount of space (more details would be specified in Table 1), especially for the incoming folder (the data managed by DHuS will be located here). The graph in Figure 3 depicts the purpose of the directories in the DHuS archive. 
 
 ![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/figure3.png)    
 
@@ -488,74 +488,13 @@ if in the list of active PID, one of them is reporting the text of the start.sh 
 `nohup /bin/bash start.sh &> dhus-<new_version>/logs/logs.txt &`           
 
 
-
-
-
-**Example of configuration changes updating DHuS from 0.4.3-1 version to 0.9.0-2 version**    
-
-Start.sh configuration
-<hr> </hr>
-<ul type="square">
- 	<li>Open dhus-<new_version>/start.sh.orig (that is the new one)
- 	<li>Set the memory usage parameters according the own needs (the default values are Xms56g -Xmx56g)
- 	<li>Change the properties removal into false (to allow collection of statistical information)
-    ` -Daction.record.inactive=false                         \`
- 	<Li>Save start.sh.orig and remane it as start.sh   
- `mv start.sh.orig start.sh`    
-</ul>
-
-Dhus.xml configuration
-<hr></hr>
-
-<ul type="square">
-
-<li> 	Open dhus-<new_version>/etc/dhus.xml (that is the old one)     
-<li>   Change the following lines:   
-
-
-<table border="2">
-    <tr>
-       <td>ORIGINAL LINE </td>
-       <td>CHANGED LINE</td>
-       <td>COMMENTS</td>
-   </tr>
-   <tr>
-<td>`server protocol="http" host="localhost" port="8080"`</td>
-<td>`server`</td>
-<td>-</td>
-</tr>
-<td>`ftp port="2121" ftps="false" `</td>
-<td>`ftp port="2121" ftps="false" passivePort="30200-30220"  `</td>
-<td>The passivePort parameter can be configured after the update of the version</td>
- </tr>
-<td>`processing corePoolSize="4" maxPoolSize = "10" queueCapacity="10000"` </td>
-<td> `processing corePoolSize="4" `</td>
-<td>corePoolSize parameter shall be configured according the own needs</td>
-</tr>
-</table>
-
-<li> Add the following line at the end of the system group (after tomcat path configuration): </li>          
-  `executor enabled="false" batchModeEnabled="false"`
-<li> Save dhus.xml    
-</ul>
-
-<hr></hr>
-Server.xml configuration
-
-<ul>
- <li>	Open dhus-<new_version>/etc/server.xml.orig (that is the new one- the old one does not exist in version 0.4.3-1)    
- 	<li>Chech the configuration of tomcat parameters, especially the following line (in 0.4.3-1 version tose information were in the dhus.xml file)      
-      <li>  &lt;Connector port=  &gt;</li> 
- 	<li> Save server.xml.orig and remane it as server.xml    
-`mv server.xml.orig server.xml` 
-   </ul>
 **Starting and Stopping a DHuS Instance**
 <hr></hr>
 
 **Start DHuS**    
 Once the DHuS files are configured as shown in Software Configuration section, execute, as dhus user, the following command in the folder where the DHuS is installed:
 
-`nohup /bin/bash start.sh &> [installation-dir]/logs.txt &`    
+`nohup /bin/bash start.sh &> [install-dir]/logs.txt &`    
 
 **Stop DHuS**
 
