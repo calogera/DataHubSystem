@@ -8,7 +8,7 @@ categories: page
 [System Requirements](#SystemRequirements)    
 [Network Requirements](#NetworkRequirements)     
 [Software Requirements](#SoftwareRequirements)     
-[InstallationSetup](#InstallationSetup)    
+[Installation Setup](#InstallationSetup)    
 [Software Configuration Manual](#SoftConManual)         
 [User Interface Configuration Manual](#UserInterfaceConfigurationManual)         
 [Advanced Configuration](#AdvancedConfiguration)       
