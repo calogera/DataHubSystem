@@ -549,7 +549,8 @@ A proxy is needed for load balancing among the replicas. It must be configured t
  
 <a name="Replica"></a>
 
-**Step 3**: **Replica Configuration**  InstallationConfigurationEmptyDB 
+**Step 3**: **Replica Configuration**  <a name="InstallationConfigurationEmptyDB"> </a>     
+
 Configure the start.sh of the replicas as follows:
 
     -Dhttp.proxyHost=[external proxy IP] \
