@@ -34,7 +34,7 @@ The major functionalities of the Data Hub Software are schematically represented
 
   
 
-![](https://raw.githubusercontent.com/SentinelDataHub/DataHubSystem/master/images/dhusfunctions.jpg)
+![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/dhusfunctions.jpg)
 
 *Data Hub Software functions* 
 <hr></hr>
