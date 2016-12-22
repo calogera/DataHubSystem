@@ -431,12 +431,9 @@ Here below the list of configuration changes present from 0.9.1-osf to 0.12.5-6-
 
 
 In **`dhus.xml`** file add:    
-1. `errorPath=""` in `<incoming>` tag. The error path includes the products that are not ingested correctly.    
-`<incoming path="" maxFileNo="" errorPath="path/to /folder"/>`   
-2. `cryptType=""` and `cryptKey=""`  in `<database /> `tag. Specify tour encryption key, or leave empty if your database has not been encrypted.   
-3. `trashPath=""` in `<eviction /> tag`. The trash path includes the products that are deleted.  
+       
+`cryptType=""` and `cryptKey=""`  in `<database /> `tag. Specify tour encryption key, or leave empty if your database has not been encrypted.   
  
-     <eviction maxDiskUsage="80" maxEvictedProducts="100" keepPeriod="10" trashPath="/path/to/folder" />
 
 In **`appconfig.json`**(path=dhus_dist>/var/tomcat/webapps/new/config).   
 The following properties added in bold (after uploadRoles property) are the new ones:  
