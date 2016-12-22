@@ -173,7 +173,7 @@ To install the service:
 
 1. Create a user named *dhus*. Every step in the installation procedure, if not explicitly mentioned, shall be performed as dhus user.
 2. Create the installation folder          
-`mkdir -p [installation-folder]`           
+`mkdir -p [install-dir]`           
 3. Download the DHuS package (shar package) and save it into the installation folder                   
 4. Change the permissions on the file.          
 `chmod +x dhus-XX.XX.XX.shar`          
