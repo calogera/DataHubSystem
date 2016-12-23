@@ -264,8 +264,18 @@ NATIVE_LIBRARIES=${DHUS_HOME}/lib/native/`uname -s`-`uname -p`
 
 ` - dhus.search.innerTimeout`  (value is expected in milliseconds)Default timeout is set to 5000ms. It could be possible to modify this value at system startup        
  `- max.rows.search.value`.  The parameter to configure the amount of products per page The default value is set to 100. 
-              
-Considering that v.0.12.5-6 introduces Scalability feature we suggest to see the [Scalability Configuration](http://calogera.github.io/DataHubSystem/page/2016/01/31/Installation-Guide.html#Scalability) session.
+ 
+Considering that v.0.12.5-6 introduces Scalability feature we suggest to see the [Scalability Configuration](http://calogera.github.io/DataHubSystem/page/2016/01/31/Installation-Guide.html#Scalability) session.  
+
+`-Ddhus.scalability.dbsync.clear=true` to clear the SymmetricDS entries from a Database dump.         
+`-Dauto.reload=false` to prevent the master from sending all its Database to a new replica.        
+`-Ddhus.scalability.active=true/false` Parameter to enable/disable the scalability set -up         
+`-Ddhus.scalability.local.protocol` Access protol for to the dhus instance         
+`-Ddhus.scalability.local.ip` internal IP of the DHuS master    
+`-Ddhus.scalability.local.port` DHuS port   
+`-Ddhus.scalability.local.path` Path to access the dhus instance (e.g. /)     
+`-Ddhus.scalability.replicaId`  Id of the replica as set in the proxy (e.g. 1)      
+`-Ddhus.scalability.dbsync.master` Meaning: http://[internal IP of the DHuS master]:[DHuS port]/    
 
 **Configuration done  and now?**   
 Once you make sure that all the parameters are set correctly, allow start.sh script to be executable:     
