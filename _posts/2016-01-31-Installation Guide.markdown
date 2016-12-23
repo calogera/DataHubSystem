@@ -448,29 +448,17 @@ Once you have changed a value in the file, you only need to refresh your browser
 --------------------------------------------------------------------------------------------------------------------
 # **Version Upgrade from 0.9.1-osf to 0.12.5-6-osf**  <a name="VersionUpgradetoNew"> </a>     
 
-Here below the list of configuration changes present from 0.9.1-osf to 0.12.5-6-osf.
+In the following we describe the steps needed for migrating from a previous DHuS version (oldversion) to the new DHuS version 0.12.5-6-osf (newversion).    
+First of all, backup the items you need to inherit:    
+1. Database folder (path attribute of <database> tag in dhus.xml)    
+2. Solr folder (path attribute of <solr> tag in dhus.xml)    
+3. Products archive folder (path attribute of <incoming> tag in dhus.xml)     
+After you have installed the newversion following the [procedure](#InstallationSetup)  the easiest way is to have the newversion configured (in dhus.xml) to use the pre-existing DHuS archive, database and solr directories. Therefore, in dhus.xml of newversion set the following variables to the same value they have in your oldversion installation 
+Alternatively, you may use the backed up copies in directory of your choice (as usual configured within dhus.xml).
 
-In **`dhus.xml`** file pay attention to:    
-       
-`cryptType=""` and `cryptKey=""`  in `<database /> `tag. Specify your encryption key, or leave empty if your database has not been encrypted.   
- 
-**DHuS version updating manual**
+In addition, set in dhus.xml
 
-Many aspects of DHuS first installation don't need to be repeated when upgrading application to a new release.                    
-
-1. Check if an older DHuS version is running   
-`ps -edf | grep java`          
-if in the list of active PID, one of them is reporting the text of the start.sh file and it is running under dhus user permission, it means that the older version of DHuS is running.                    
-2. If an older version of DHuS is running, stop it            
-`dhus-<old_version>/stop.sh`             
-3. Copy the Database and SolR folder from the previous version           
-`cp -rp dhus-<old_version>/var/database dhus-<new_version>/var/`                    
-`cp -rp dhus-<old_version>/var/solr dhus-<new_version>/var/`                                          
-4. Change the var path in the dhus.xml and check if every path containing &varFolder;/  path are still respected            
- ` <!ENTITY varFolder "dhus-<new_version>/var/">      
-]>`                             
-5. Start the new DHuS version            
-`nohup /bin/bash start.sh &> dhus-<new_version>/logs/logs.txt &`           
+`cryptType` and `cryptKey`, specifying your database encryption key, or leave empty if your database is not encrypted.        
 
 
 **Starting and Stopping a DHuS Instance**
