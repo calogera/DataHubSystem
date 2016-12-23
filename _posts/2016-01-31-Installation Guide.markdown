@@ -446,43 +446,20 @@ In **`dhus.xml`** file pay attention to:
  
 **DHuS version updating manual**
 
-Many aspects of DHuS first installation don't need to be repeated when upgrading application to a new release. In the following procedures the reference version will be called new_version and the older version, the version previously installed on the same instance, will be called old_version     
- 
-1. Access to the chosen installation folder (/data is recommended) and create the installation directory:    
-`mkdir dhus-<new_version>`    
-(Its not necessary to touch the already present archive, the database is copied and then migrated at first start, so links to products remain intact and continue to point to the same archive)    
-2. Create the new layout:     
-`mkdir -p dhus-<new_version>/logs`          
-`mkdir -p dhus-<new_version>/var`    
-3. Change the execution permissions
-`chmod +x dhus-XX.XX.XX.shar`    
-4. Launch
-`./dhus-XX.XX.XX.shar`    
-5. Access the installation directory and rename all the *.sh files (produced with the installation) as *.sh.orig executing the command:
-rename .sh .sh.orig *.sh     
-6. then access the /etc directory and rename all the *.xml files as *.xml.orig launching the same command as before:     
-`cd /etc`        
-`rename .xml .xml.orig *.xml`    
-7. check that all the .xml and .sh files are correctly renamed respectively as .xml.orig and .sh.orig         
-8. Copy all the .sh and all the .xml files, and synonyms.txt files from the folder of the previous version (please note that synonyms.txt is not present in versions older than the version 0.4.4):    
-  
-`cp -r dhus-old_version/*.sh dhus-new_version`           
-`cp -r dhus-<old_version>/etc/*.xml dhus-<new_version>/etc`               
-`cp -r dhus-<old_version>/etc/synonyms.txt dhus-<new_version>/etc`                         
-9. Change the configuration files depending on the <old-version> number.                        
-10. Check if an older DHuS version is running   
+Many aspects of DHuS first installation don't need to be repeated when upgrading application to a new release.                    
+
+1. Check if an older DHuS version is running   
 `ps -edf | grep java`          
 if in the list of active PID, one of them is reporting the text of the start.sh file and it is running under dhus user permission, it means that the older version of DHuS is running.                    
-11. If an older version of DHuS is running, stop it            
+2. If an older version of DHuS is running, stop it            
 `dhus-<old_version>/stop.sh`             
-12.Copy the Database and SolR folder from the previous version           
+3. Copy the Database and SolR folder from the previous version           
 `cp -rp dhus-<old_version>/var/database dhus-<new_version>/var/`                    
-`cp -rp dhus-<old_version>/var/solr dhus-<new_version>/var/`                      
-`cp -rp dhus-<old_version>/var/tomcat dhus-<new_version>/var/`                     
-13.Change the var path in the dhus.xml and check if every path containing &varFolder;/  path are still respected            
+`cp -rp dhus-<old_version>/var/solr dhus-<new_version>/var/`                                          
+4. Change the var path in the dhus.xml and check if every path containing &varFolder;/  path are still respected            
  ` <!ENTITY varFolder "dhus-<new_version>/var/">      
 ]>`                             
-14.Start the new DHuS version            
+5.Start the new DHuS version            
 `nohup /bin/bash start.sh &> dhus-<new_version>/logs/logs.txt &`           
 
 
@@ -492,7 +469,7 @@ if in the list of active PID, one of them is reporting the text of the start.sh 
 **Start DHuS**    
 Once the DHuS files are configured as shown in Software Configuration section, execute, as dhus user, the following command in the folder where the DHuS is installed:
 
-`nohup /bin/bash start.sh &> [install-dir]/logs.txt &`    
+`nohup /bin/bash start.sh &> [install-dir]logs.txt &`    
 
 **Stop DHuS**
 
