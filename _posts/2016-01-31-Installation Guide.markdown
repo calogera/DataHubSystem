@@ -167,26 +167,25 @@ In this case, make sure the apache version compatible with DHuS is the number 2.
 The httpd v command tells which config file Apache is using.
 
 
-**Installation and Setup** <a name="InstallationSetup"></a>       
-Installation Manual   
-To install the service:         
+**Installation and Setup** <a name="InstallationSetup"></a>    
 
-1. Create a user named *dhus*. Every step in the installation procedure, if not explicitly mentioned, shall be performed as dhus user.
-2. Create the installation directory          
-`mkdir -p [install-dir]`           
-3. Download the DHuS package (shar package) and save it into the installation directory                   
-4. Change the permissions on the file.          
-`chmod +x dhus-XX.XX.XX.shar`          
-5. Launch          
-`./dhus-XX.XX.XX.shar`            
-(the package will autoinstall).             
-Once executed, the system setting configuration file can be accessed and updated.              
-6. Once the autoinstall procedure is complete, create the following directories for the local archive, the incoming products, the database etc..:          
-`Local archive [install-dir]data-local`               
-`Var [install-dir]var/`                
-`Incoming [free_dir]incoming`              
-   
-Note that the incoming and the Local archive shall be two different folders (e.g. one cannot contain the other and vice versa) not necessarily under the DHuS installation directory. Moreover they shall be located in a partition of the machine where there is a certain amount of space (more details would be specified in Table 1), especially for the incoming folder (the data managed by DHuS will be located here). The graph in Figure below depicts the purpose of the directories in the DHuS archive. 
+1.	Create a user named dhus. Every step in the installation procedure, if not explicitly mentioned, shall be performed as dhus user.  
+2.	Create the installation directory:   
+`
+mkdir -p [install-dir]`
+3.	Download the DHuS package (shar package) and save it into the installation directory
+4.	Change the permissions on the file:  
+`chmod +x dhus-XX.XX.XX.shar`  
+5.	Launch   
+`./dhus-XX.XX.XX.shar`
+(the package will autoinstall).
+Once executed, the system setting configuration file can be accessed and updated.   
+6.	Edit the `etc/dhus.xml` configuration file and modify the varFolder variable to an absolute path of your choice. This directory will contain the local archive, the incoming products, the database, etc.   
+Eg: `<!ENTITY varFolder “ /home/dhus/local_dhus”>`
+7.	Start the DHuS entering the following command in the installation directory:   
+`nohup /bin/bash ./start.sh &`   
+The log files will be created in the installation directory.
+The graph in Figure below depicts the purpose of the directories in the DHuS archive. 
 
 ![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/figure3.png)    
 
@@ -437,10 +436,9 @@ Once you have changed a value in the file, you only need to refresh your browser
 
 <hr></hr>
 --------------------------------------------------------------------------------------------------------------------
-**Version Upgrade from 0.9.1-osf to 0.12.5-6-osf**  <a name="VersionUpgradetoNew"> </a>     
+# **Version Upgrade from 0.9.1-osf to 0.12.5-6-osf**  <a name="VersionUpgradetoNew"> </a>     
 
 Here below the list of configuration changes present from 0.9.1-osf to 0.12.5-6-osf.
-
 
 In **`dhus.xml`** file add:    
        
