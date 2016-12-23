@@ -179,7 +179,7 @@ mkdir -p [install-dir]`
 5.	Launch   
 `./dhus-XX.XX.XX.shar`
 (the package will autoinstall).
-Once executed, the system setting configuration file can be accessed and updated.   
+Once executed, the system setting configuration file can be accessed and updated.       
 6.	Edit the `etc/dhus.xml` configuration file and modify the varFolder variable to an absolute path of your choice. This directory will contain the local archive, the incoming products, the database, etc.   
 Eg: `<!ENTITY varFolder “ /home/dhus/local_dhus”>`
 7.	Start the DHuS entering the following command in the installation directory:   
@@ -459,7 +459,7 @@ if in the list of active PID, one of them is reporting the text of the start.sh 
 4. Change the var path in the dhus.xml and check if every path containing &varFolder;/  path are still respected            
  ` <!ENTITY varFolder "dhus-<new_version>/var/">      
 ]>`                             
-5.Start the new DHuS version            
+5. Start the new DHuS version            
 `nohup /bin/bash start.sh &> dhus-<new_version>/logs/logs.txt &`           
 
 
