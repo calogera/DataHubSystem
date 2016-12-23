@@ -185,11 +185,6 @@ Eg: `<!ENTITY varFolder “ /home/dhus/local_dhus”>`
 7.	Start the DHuS entering the following command in the installation directory:   
 `nohup /bin/bash ./start.sh &`   
 The log files will be created in the installation directory.
-The graph in Figure below depicts the purpose of the directories in the DHuS archive. 
-
-![](https://raw.githubusercontent.com/calogera/DataHubSystem/gh-pages/images/figure3.png)    
-
-*DHuS directories objectives*
 
 <hr> </hr>
 **Software Configuration Manual**<a name="SoftConfManual"></a> 
