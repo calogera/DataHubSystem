@@ -444,7 +444,7 @@ Here below the list of configuration changes present from 0.9.1-osf to 0.12.5-6-
 
 In **`dhus.xml`** file add:    
        
-`cryptType=""` and `cryptKey=""`  in `<database /> `tag. Specify tour encryption key, or leave empty if your database has not been encrypted.   
+`cryptType=""` and `cryptKey=""`  in `<database /> `tag. Specify your encryption key, or leave empty if your database has not been encrypted.   
  
 **DHuS version updating manual**
 
