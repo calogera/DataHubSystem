@@ -440,13 +440,13 @@ Once you have changed a value in the file, you only need to refresh your browser
 
 Here below the list of configuration changes present from 0.9.1-osf to 0.12.5-6-osf.
 
-In **`dhus.xml`** file add:    
+In **`dhus.xml`** file pay attention to:    
        
 `cryptType=""` and `cryptKey=""`  in `<database /> `tag. Specify your encryption key, or leave empty if your database has not been encrypted.   
  
 **DHuS version updating manual**
 
-Many aspects of DHuS first installation dont need to be repeated when upgrading application to a new release. In the following procedures the reference version will be called new_version and the older version, the version previously installed on the same instance, will be called old_version     
+Many aspects of DHuS first installation don't need to be repeated when upgrading application to a new release. In the following procedures the reference version will be called new_version and the older version, the version previously installed on the same instance, will be called old_version     
  
 1. Access to the chosen installation folder (/data is recommended) and create the installation directory:    
 `mkdir dhus-<new_version>`    
@@ -469,7 +469,7 @@ rename .sh .sh.orig *.sh
 `cp -r dhus-old_version/*.sh dhus-new_version`           
 `cp -r dhus-<old_version>/etc/*.xml dhus-<new_version>/etc`               
 `cp -r dhus-<old_version>/etc/synonyms.txt dhus-<new_version>/etc`                         
-9. Change the configuration files depending on the <old-version> number (see Table 3 for details on configuration files changes). Example of the updating configuration procedure from 0.4.3-1 to 0.9.0-2 version is provided below.                          
+9. Change the configuration files depending on the <old-version> number.                        
 10. Check if an older DHuS version is running   
 `ps -edf | grep java`          
 if in the list of active PID, one of them is reporting the text of the start.sh file and it is running under dhus user permission, it means that the older version of DHuS is running.                    
